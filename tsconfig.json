@@ -1,0 +1,10 @@
+{
+  "extends": ["@n1hron/tsconfig/node", "@n1hron/tsconfig/build"],
+  "exclude": ["./dist", "./node_modules"],
+
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "extends": ["@n1hron/tsconfig/node", "@n1hron/tsconfig/build"],
+  "include": ["./scripts", "./src", "./eslint.config.js", "./*.ts"],
+  "exclude": ["./script.js"],
+
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  }
+}

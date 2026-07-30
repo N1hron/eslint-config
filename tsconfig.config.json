@@ -1,0 +1,4 @@
+{
+  "extends": ["@n1hron/tsconfig/node", "@n1hron/tsconfig/build"],
+  "include": ["./eslint.config.js", "./*.ts"]
+}

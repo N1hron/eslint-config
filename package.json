@@ -1,0 +1,92 @@
+{
+  "name": "@n1hron/eslint-config",
+  "version": "1.0.0",
+  "description": "Personal opinionated eslint config",
+  "license": "MIT",
+  "author": "N1hron",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/N1hron/eslint-config.git"
+  },
+  "files": [
+    "./dist"
+  ],
+  "type": "module",
+  "exports": {
+    ".": {
+      "default": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "npm run typegen && tsdown",
+    "fix": "eslint --fix",
+    "lint": "eslint",
+    "prepack": "npm run build",
+    "publish": "npm publish --access public",
+    "typegen": "tsx ./scripts/typegen.ts"
+  },
+  "devDependencies": {
+    "@n1hron/oxfmt-config": "^1.1.0",
+    "@n1hron/tsconfig": "^2.0.0",
+    "@stylistic/eslint-plugin": "^5.10.0",
+    "@types/node": "^26.1.1",
+    "@typescript/native": "npm:typescript@^7.0.2",
+    "eslint": "^10.8.0",
+    "eslint-plugin-import-x": "^4.17.1",
+    "eslint-plugin-perfectionist": "^5.10.0",
+    "eslint-plugin-react-dom": "^5.14.7",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.3",
+    "eslint-plugin-react-x": "^5.14.7",
+    "eslint-typegen": "^2.3.1",
+    "globals": "^17.8.0",
+    "jiti": "^2.7.0",
+    "oxfmt": "^0.60.0",
+    "tsdown": "^0.22.4",
+    "tsx": "^4.23.0",
+    "typescript": "npm:@typescript/typescript6@^6.0.2",
+    "typescript-eslint": "^8.65.0"
+  },
+  "peerDependencies": {
+    "@stylistic/eslint-plugin": "^5.10.0",
+    "eslint": "^10.8.0",
+    "eslint-plugin-import-x": "^4.17.1",
+    "eslint-plugin-perfectionist": "^5.10.0",
+    "eslint-plugin-react-dom": "^5.14.7",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.3",
+    "eslint-plugin-react-x": "^5.14.7",
+    "globals": "^17.8.0",
+    "typescript-eslint": "^8.65.0"
+  },
+  "peerDependenciesMeta": {
+    "@stylistic/eslint-plugin": {
+      "optional": true
+    },
+    "eslint-plugin-import-x": {
+      "optional": true
+    },
+    "eslint-plugin-perfectionist": {
+      "optional": true
+    },
+    "eslint-plugin-react-dom": {
+      "optional": true
+    },
+    "eslint-plugin-react-hooks": {
+      "optional": true
+    },
+    "eslint-plugin-react-refresh": {
+      "optional": true
+    },
+    "eslint-plugin-react-x": {
+      "optional": true
+    },
+    "typescript-eslint": {
+      "optional": true
+    },
+    "globals": {
+      "optional": true
+    }
+  }
+}
