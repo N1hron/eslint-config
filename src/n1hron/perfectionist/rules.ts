@@ -26,36 +26,36 @@ export const rules: PerfectionistRules = {
         "named-value-external",
         { newlinesBetween: 0 },
         "named-value-import",
-        { newlinesBetween: 0 },
+
         "named-type-builtin",
         { newlinesBetween: 0 },
         "named-type-external",
         { newlinesBetween: 0 },
         "named-type-import",
 
-        "wildcard-value-builtin",
-        { newlinesBetween: 0 },
-        "wildcard-value-external",
-        { newlinesBetween: 0 },
-        "wildcard-value-import",
-        { newlinesBetween: 0 },
-        "wildcard-type-builtin",
-        { newlinesBetween: 0 },
-        "wildcard-type-external",
-        { newlinesBetween: 0 },
-        "wildcard-type-import",
-
         "value-builtin",
         { newlinesBetween: 0 },
         "value-external",
         { newlinesBetween: 0 },
         "value-import",
-        { newlinesBetween: 0 },
+
         "type-builtin",
         { newlinesBetween: 0 },
         "type-external",
         { newlinesBetween: 0 },
         "type-import",
+
+        "wildcard-value-builtin",
+        { newlinesBetween: 0 },
+        "wildcard-value-external",
+        { newlinesBetween: 0 },
+        "wildcard-value-import",
+
+        "wildcard-type-builtin",
+        { newlinesBetween: 0 },
+        "wildcard-type-external",
+        { newlinesBetween: 0 },
+        "wildcard-type-import",
 
         "style",
         "side-effect",
@@ -72,20 +72,17 @@ export const rules: PerfectionistRules = {
       newlinesBetween: 1,
 
       groups: [
-        { group: "multiline-named-export", newlinesInside: 1 },
-        { group: "multiline-named-type-export", newlinesInside: 1 },
-
-        "named-export",
-        { newlinesBetween: 0 },
-        "named-type-export",
-
         "wildcard-export",
-        { newlinesBetween: 0 },
         "wildcard-type-export",
 
         "export",
-        { newlinesBetween: 0 },
         "type-export",
+
+        "named-export",
+        "named-type-export",
+
+        { group: "multiline-named-export", newlinesInside: 1 },
+        { group: "multiline-named-type-export", newlinesInside: 1 },
       ],
     },
   ],

@@ -1,5 +1,6 @@
 import { posix } from "node:path";
 import { AggregateConfigError, ConfigError } from "@/errors";
+
 import type { Config, MaybeConfigArray, MaybePromise, Shift } from "@/types";
 import type { ConfigErrorParameters } from "@/errors";
 

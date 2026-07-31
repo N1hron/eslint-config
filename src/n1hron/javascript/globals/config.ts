@@ -1,5 +1,6 @@
 import { ConfigUtils } from "@/utils";
 import { FILES_JS, FILES_JSX, FILES_TS, FILES_TSX } from "@/globs";
+
 import type { default as g } from "globals";
 import type { Config, CreateConfig } from "@/types";
 import type { ConfigOverrides } from "@/utils";

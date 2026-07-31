@@ -2,6 +2,7 @@ import { ConfigUtils, resolve } from "@/utils";
 import { FILES_JS, FILES_JSX, FILES_TS, FILES_TSX } from "@/globs";
 import { globals } from "./globals";
 import { rules } from "./rules";
+
 import type { Config, CreateConfig, MaybeConfigArray, MaybePromise } from "@/types";
 import type { ConfigOverrides } from "@/utils";
 import type { JavascriptGlobalsOptions } from "./globals";

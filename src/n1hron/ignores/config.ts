@@ -1,5 +1,6 @@
 import { ConfigUtils } from "@/utils";
 import { FILES_IGNORE } from "@/globs";
+
 import type { Config, CreateConfig } from "@/types";
 import type { ConfigOverrides } from "@/utils";
 

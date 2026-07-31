@@ -4,6 +4,7 @@ import { FILES_JSX, FILES_TSX } from "@/globs";
 import { hooks } from "./hooks";
 import { refresh } from "./refresh";
 import { rules } from "./rules";
+
 import type { Config, CreateConfig, MaybeConfigArray, MaybePromise } from "@/types";
 import type { ConfigOverrides } from "@/utils";
 import type { ReactDomOptions } from "./dom";

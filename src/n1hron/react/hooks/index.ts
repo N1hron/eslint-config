@@ -1,3 +1,3 @@
-export type { ReactHooksRules } from "./types.gen";
-
 export * from "./config";
+
+export type { ReactHooksRules } from "./types.gen";

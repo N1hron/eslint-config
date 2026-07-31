@@ -1,3 +1,3 @@
-export type { ReactRefreshRules } from "./types.gen";
-
 export * from "./config";
+
+export type { ReactRefreshRules } from "./types.gen";

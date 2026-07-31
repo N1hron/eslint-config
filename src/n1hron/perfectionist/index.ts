@@ -1,3 +1,3 @@
-export type { PerfectionistRules } from "./types.gen";
-
 export * from "./config";
+
+export type { PerfectionistRules } from "./types.gen";

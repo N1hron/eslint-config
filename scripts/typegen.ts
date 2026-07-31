@@ -1,5 +1,6 @@
 import { builtinRules } from "eslint/use-at-your-own-risk";
 import { pluginsToRulesDTS } from "eslint-typegen/core";
+
 import type { ESLintPlugin } from "@/types";
 
 import fs from "fs/promises";

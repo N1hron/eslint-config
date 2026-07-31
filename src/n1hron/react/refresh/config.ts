@@ -1,6 +1,7 @@
 import { ConfigUtils } from "@/utils";
 import { FILES_JSX, FILES_TSX } from "@/globs";
 import { rules } from "./rules";
+
 import type { Config, CreateConfig } from "@/types";
 import type { ConfigOverrides } from "@/utils";
 import type { ReactRefreshRules } from "./types.gen";

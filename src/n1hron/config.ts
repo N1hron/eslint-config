@@ -7,6 +7,7 @@ import { react } from "./react";
 import { resolve } from "@/utils";
 import { stylistic } from "./stylistic";
 import { typescript } from "./typescript";
+
 import type { DefineConfig, MaybeConfigArray } from "@/types";
 import type { IgnoresOptions } from "./ignores";
 import type { ImportsOptions } from "./imports";
