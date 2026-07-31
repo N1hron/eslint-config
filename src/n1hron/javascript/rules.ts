@@ -54,8 +54,8 @@ const core: JavascriptRules = {
 
 const stylistic: JavascriptRules = {
   "class-methods-use-this": "error",
-  "curly": ["error", "multi-line"],
-  "eqeqeq": ["error", "smart"],
+  curly: ["error", "multi-line"],
+  eqeqeq: ["error", "smart"],
   "no-caller": "error",
   "no-case-declarations": "error",
   "no-delete-var": "error",
