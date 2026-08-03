@@ -25,7 +25,7 @@ type Typescript = ConfigCreator<TypescriptOptions>;
 
 const utils = new ConfigUtils("n1hron/typescript");
 
-export const typescript: Typescript = async ({
+export const typescript: Typescript = ({
   rulesets: { core = true, stylistic = true, typechecked = true } = {},
   overrides = {},
 } = {}) => utils.load("typescript-eslint").then(([tseslint]) => utils.override<TypescriptConfig>({

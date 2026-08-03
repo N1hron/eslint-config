@@ -16,7 +16,7 @@ interface Javascript extends ConfigCreator<JavascriptOptions> {
   globals: typeof globals;
 }
 
-const javascript: Javascript = async ({ core = true, globals = false }: JavascriptOptions = {}) => resolve([
+const javascript: Javascript = ({ core = true, globals = false }: JavascriptOptions = {}) => resolve([
   [javascript.core, core],
   [javascript.globals, globals],
 ]);

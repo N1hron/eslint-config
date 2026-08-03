@@ -39,7 +39,7 @@ interface React extends ConfigCreator<ReactOptions> {
   refresh: typeof refresh;
 }
 
-const react: React = async ({ core = true, dom = false, hooks = false, refresh = false } = {}) => resolve([
+const react: React = ({ core = true, dom = false, hooks = false, refresh = false } = {}) => resolve([
   [react.core, core],
   [react.dom, dom],
   [react.hooks, hooks],

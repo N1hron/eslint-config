@@ -22,7 +22,7 @@ type JavascriptGlobals = ConfigCreator<JavascriptGlobalsOptions>;
 
 const utils = new ConfigUtils("n1hron/javascript/globals");
 
-export const globals: JavascriptGlobals = async ({
+export const globals: JavascriptGlobals = ({
   lib = "es2023",
   env = ["node"],
   overrides = {},
