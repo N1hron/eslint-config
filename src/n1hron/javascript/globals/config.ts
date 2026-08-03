@@ -1,25 +1,24 @@
 import { ConfigUtils } from "@/utils";
 import { FILES_JS, FILES_JSX, FILES_TS, FILES_TSX } from "@/globs";
 
-import type { default as g } from "globals";
-import type { Config, CreateConfig } from "@/types";
+import type { default as __globals } from "globals";
+import type { Config, ConfigCreator } from "@/types";
 import type { ConfigOverrides } from "@/utils";
 
-type Globals = keyof typeof g;
+type Globals = keyof typeof __globals;
 type GlobalsLib = { [K in Globals]: K extends `es${string}` ? K : never }[Globals];
 type GlobalsEnv = Exclude<Globals, GlobalsLib>[];
 
 export type JavascriptGlobalsOptions = {
   /** @default "es2023" */
   lib?: GlobalsLib;
-
   /** @default ["node"] */
   env?: GlobalsEnv;
 
-  overrides?: ConfigOverrides;
+  overrides?: ConfigOverrides<Config, "basePath" | "files" | "ignores" | "languageOptions" | "name">;
 };
 
-type JavascriptGlobals = CreateConfig<JavascriptGlobalsOptions>;
+type JavascriptGlobals = ConfigCreator<JavascriptGlobalsOptions>;
 
 const utils = new ConfigUtils("n1hron/javascript/globals");
 
@@ -27,10 +26,8 @@ export const globals: JavascriptGlobals = async ({
   lib = "es2023",
   env = ["node"],
   overrides = {},
-}: JavascriptGlobalsOptions = {}) => {
-  const [globals] = await utils.load("globals");
-
-  const config: Config = {
+}: JavascriptGlobalsOptions = {}) => utils.load("globals").then(([globals]) => utils.override(
+  {
     name: utils.configName,
     files: [FILES_JS, FILES_JSX, FILES_TS, FILES_TSX],
     languageOptions: {
@@ -39,7 +36,6 @@ export const globals: JavascriptGlobals = async ({
         ...env.reduce((acc, env) => Object.assign(acc, globals[env]), {}),
       },
     },
-  };
-
-  return utils.override(config, overrides);
-};
+  },
+  overrides,
+));

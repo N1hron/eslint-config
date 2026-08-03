@@ -1,7 +1,7 @@
-import type { JavascriptRules } from "../javascript";
+import type { JavascriptCoreRules } from "../javascript/core";
 import type { TypescriptRules } from "./types.gen";
 
-const compats: JavascriptRules = {
+const compats: JavascriptCoreRules = {
   "constructor-super": "off", // ts(2335) & ts(2377)
   "getter-return": "off", // ts(2378)
   "no-class-assign": "off", // ts(2629)
@@ -23,7 +23,7 @@ const compats: JavascriptRules = {
   "no-with": "off", // ts(1101) & ts(2410)
 };
 
-const core: TypescriptRules & JavascriptRules = {
+const core: TypescriptRules & JavascriptCoreRules = {
   "@typescript-eslint/no-duplicate-enum-values": "error",
   "@typescript-eslint/no-empty-object-type": ["error", { allowInterfaces: "with-single-extends" }],
   "@typescript-eslint/no-explicit-any": "error",
@@ -83,12 +83,12 @@ const core: TypescriptRules & JavascriptRules = {
   "no-unused-vars": "off",
 };
 
-const stylistic: TypescriptRules & JavascriptRules = {
+const stylistic: TypescriptRules & JavascriptCoreRules = {
   "@typescript-eslint/adjacent-overload-signatures": "error",
   "@typescript-eslint/consistent-type-assertions": ["error", { assertionStyle: "as" }],
 };
 
-const typechecked: TypescriptRules & JavascriptRules = {
+const typechecked: TypescriptRules & JavascriptCoreRules = {
   "@typescript-eslint/await-thenable": ["error"],
   "@typescript-eslint/consistent-type-exports": "error",
   "@typescript-eslint/no-array-delete": "error",

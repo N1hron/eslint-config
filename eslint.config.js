@@ -18,23 +18,8 @@ export default n1hron({
     },
   },
 
-  javascript: {
-    globals: {
-      env: ["node"],
-      lib: "es2023",
-    },
-  },
-
-  typescript: {
-    overrides: {
-      rules: ext({
-        "@typescript-eslint/await-thenable": "off",
-        "@typescript-eslint/require-await": "off",
-        "@typescript-eslint/no-deprecated": "off",
-      }),
-    },
-  },
-
+  javascript: true,
+  typescript: true,
   stylistic: true,
   imports: true,
   perfectionist: true,

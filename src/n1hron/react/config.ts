@@ -1,20 +1,20 @@
-import { ConfigUtils, resolve } from "@/utils";
+import { core } from "./core";
 import { dom } from "./dom";
-import { FILES_JSX, FILES_TSX } from "@/globs";
 import { hooks } from "./hooks";
 import { refresh } from "./refresh";
-import { rules } from "./rules";
+import { resolve } from "@/utils";
 
-import type { Config, CreateConfig, MaybeConfigArray, MaybePromise } from "@/types";
-import type { ConfigOverrides } from "@/utils";
+import type { ConfigCreator } from "@/types";
 import type { ReactDomOptions } from "./dom";
 import type { ReactHooksOptions } from "./hooks";
 import type { ReactRefreshOptions } from "./refresh";
-import type { ReactRules } from "./types.gen";
-
-type ReactConfig = Config<ReactRules>;
 
 export interface ReactOptions {
+  /**
+   * Requires {@link https://www.npmjs.com/package/eslint-plugin-react-x|eslint-plugin-react-x} to be installed
+   * @default true
+   */
+  core?: boolean | ReactDomOptions;
   /**
    * Requires {@link https://www.npmjs.com/package/eslint-plugin-react-dom|eslint-plugin-react-dom} to be installed
    * @default false
@@ -30,41 +30,23 @@ export interface ReactOptions {
    * @default false
    */
   refresh?: boolean | ReactRefreshOptions;
-  overrides?: ConfigOverrides<ReactConfig>;
 }
 
-interface React extends CreateConfig<ReactOptions> {
+interface React extends ConfigCreator<ReactOptions> {
+  core: typeof core;
   dom: typeof dom;
   hooks: typeof hooks;
   refresh: typeof refresh;
 }
 
-const utils = new ConfigUtils("n1hron/react");
+const react: React = async ({ core = true, dom = false, hooks = false, refresh = false } = {}) => resolve([
+  [react.core, core],
+  [react.dom, dom],
+  [react.hooks, hooks],
+  [react.refresh, refresh],
+]);
 
-const react: React = async ({ dom = false, hooks = false, refresh = false, overrides = {} } = {}) => {
-  const [{ default: reactX }] = await utils.load("eslint-plugin-react-x");
-
-  const config: ReactConfig = {
-    name: utils.configName,
-    files: [FILES_JSX, FILES_TSX],
-    plugins: { "react-x": reactX },
-    rules,
-  };
-
-  const configs: Array<MaybePromise<MaybeConfigArray>> = [utils.override(config, overrides)];
-
-  if (dom === true) configs.push(react.dom());
-  else if (dom) configs.push(react.dom(dom));
-
-  if (hooks === true) configs.push(react.hooks());
-  else if (hooks) configs.push(react.hooks(hooks));
-
-  if (refresh === true) configs.push(react.refresh());
-  else if (refresh) configs.push(react.refresh(refresh));
-
-  return await resolve(configs);
-};
-
+react.core = core;
 react.dom = dom;
 react.hooks = hooks;
 react.refresh = refresh;

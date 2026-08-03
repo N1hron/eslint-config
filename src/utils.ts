@@ -1,7 +1,7 @@
 import { posix } from "node:path";
 import { AggregateConfigError, ConfigError } from "@/errors";
 
-import type { Config, MaybeConfigArray, MaybePromise, Shift } from "@/types";
+import type { Config, ConfigCreator, MaybeConfigArray, MaybePromise, Shift } from "@/types";
 import type { ConfigErrorParameters } from "@/errors";
 
 const EXT = Symbol.for("EXT");
@@ -174,7 +174,7 @@ export class ConfigUtils {
       return overrider.payload;
     }
 
-    throw this.#error("Encountered invalid overrider. Use \"ext\", \"set\" or \"map\" utility functions");
+    throw this.#error("Encountered invalid overrider. Use \"ext\", \"set\" and \"map\" utility functions");
   }
 
   #error(...args: Shift<ConfigErrorParameters>): ConfigError {
@@ -190,19 +190,51 @@ class FailedConfig {
   name: string;
 
   constructor(name: string) {
-    this.name = `[FAILED] > ${name}`;
+    this.name = `FAILED > ${name}`;
   }
 }
 
-export async function resolve(configs: Array<MaybePromise<MaybeConfigArray>>): Promise<Array<MaybeConfigArray>> {
-  return await Promise.allSettled(configs).then((results) => results.map((result) => {
-    if (result.status === "fulfilled") {
-      return result.value;
-    } else if (result.reason instanceof ConfigError) {
-      result.reason.report();
-      return new FailedConfig(result.reason.configName);
+type Creator<O> = [ConfigCreator<O>, O | boolean];
+type Creators<O extends unknown[]> = { [K in keyof O]: Creator<O[K]> };
+
+export async function resolve<O extends unknown[] = unknown[]>(creators: Creators<O>) {
+  const configs = creators.reduce((configs, [create, options]) => {
+    let config: MaybePromise<MaybeConfigArray>;
+
+    try {
+      if (options === true) {
+        config = create();
+      } else if (options) {
+        config = create(options);
+      } else {
+        return configs;
+      }
+    } catch (error) {
+      if (error instanceof ConfigError) {
+        error.report();
+        config = new FailedConfig(error.configName);
+      } else throw error;
     }
 
-    throw result.reason;
-  }));
+    configs.push(config);
+
+    return configs;
+  }, [] as Array<MaybePromise<MaybeConfigArray>>);
+
+  for (let i = 0; i < configs.length; i++) {
+    const config = configs[i]!;
+
+    if (config instanceof Promise) {
+      try {
+        configs[i] = await config;
+      } catch (error) {
+        if (error instanceof ConfigError) {
+          error.report();
+          configs[i] = new FailedConfig(error.configName);
+        } else throw error;
+      }
+    }
+  }
+
+  return configs as Array<MaybeConfigArray>;
 }

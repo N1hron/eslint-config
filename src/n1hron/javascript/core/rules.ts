@@ -1,6 +1,6 @@
-import type { JavascriptRules } from "./types.gen";
+import type { JavascriptCoreRules } from "./types.gen";
 
-const core: JavascriptRules = {
+const core: JavascriptCoreRules = {
   "constructor-super": "error",
   "getter-return": "error",
   "no-async-promise-executor": "error",
@@ -52,7 +52,7 @@ const core: JavascriptRules = {
   "valid-typeof": "error",
 };
 
-const stylistic: JavascriptRules = {
+const stylistic: JavascriptCoreRules = {
   "class-methods-use-this": "error",
   curly: ["error", "multi-line"],
   eqeqeq: ["error", "smart"],

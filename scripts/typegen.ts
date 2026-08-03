@@ -14,92 +14,103 @@ import reactX from "eslint-plugin-react-x";
 import stylistic from "@stylistic/eslint-plugin";
 import tseslint from "typescript-eslint";
 
-interface PluginData {
+interface ConfigData {
   name: string;
   type: string;
-  prefix: string;
-  plugin: ESLintPlugin;
-  children?: PluginData[];
+  plugins: Record<string, ESLintPlugin>;
+
+  items?: never;
 }
 
-const data: PluginData[] = [
-  {
-    name: "typescript",
-    type: "TypescriptRules",
-    prefix: "@typescript-eslint",
-    plugin: tseslint.plugin,
-  },
-  {
-    name: "stylistic",
-    type: "StylisticRules",
-    prefix: "@stylistic",
-    plugin: stylistic,
-  },
-  {
-    name: "javascript",
-    type: "JavascriptRules",
-    prefix: "",
-    plugin: { rules: Object.fromEntries(builtinRules) },
-  },
-  {
-    name: "imports",
-    type: "ImportsRules",
-    prefix: "import-x",
-    plugin: importX,
-  },
-  {
-    name: "perfectionist",
-    type: "PerfectionistRules",
-    prefix: "perfectionist",
-    plugin: perfectionist,
-  },
-  {
-    name: "react",
-    type: "ReactRules",
-    prefix: "react-x",
-    plugin: reactX,
+interface ConfigDataGroup {
+  name: string;
+  items: Array<ConfigData | ConfigDataGroup>;
 
-    children: [
-      {
-        name: "hooks",
-        type: "ReactHooksRules",
-        prefix: "react-hooks",
-        plugin: reactHooks as ESLintPlugin,
-      },
-      {
-        name: "dom",
-        type: "ReactDomRules",
-        prefix: "react-dom",
-        plugin: reactDom,
-      },
-      {
-        name: "refresh",
-        type: "ReactRefreshRules",
-        prefix: "react-refresh",
-        plugin: reactRefresh,
-      },
-    ],
-  },
-];
+  type?: never;
+  plugins?: never;
+}
 
-const generate = (data: PluginData[], location: string) => Promise.all(data.map(async (item) => {
-  const dir = path.join(location, item.name);
+const data: ConfigDataGroup = {
+  name: "n1hron",
+  items: [
+    {
+      name: "typescript",
+      type: "TypescriptRules",
+      plugins: { "@typescript-eslint": tseslint.plugin },
+    },
+    {
+      name: "stylistic",
+      type: "StylisticRules",
+      plugins: { "@stylistic": stylistic },
+    },
+    {
+      name: "javascript",
+      items: [
+        {
+          name: "core",
+          type: "JavascriptCoreRules",
+          // eslint-disable-next-line @typescript-eslint/no-deprecated
+          plugins: { "": { rules: Object.fromEntries(builtinRules) } },
+        },
+      ],
+    },
+    {
+      name: "imports",
+      type: "ImportsRules",
+      plugins: { "import-x": importX },
+    },
+    {
+      name: "perfectionist",
+      type: "PerfectionistRules",
+      plugins: { perfectionist: perfectionist },
+    },
+    {
+      name: "react",
+      items: [
+        {
+          name: "core",
+          type: "ReactCoreRules",
+          plugins: { "react-x": reactX },
+        },
+        {
+          name: "hooks",
+          type: "ReactHooksRules",
+          plugins: { "react-hooks": reactHooks as ESLintPlugin },
+        },
+        {
+          name: "dom",
+          type: "ReactDomRules",
+          plugins: { "react-dom": reactDom },
+        },
+        {
+          name: "refresh",
+          type: "ReactRefreshRules",
+          plugins: { "react-refresh": reactRefresh },
+        },
+      ],
+    },
+  ],
+};
 
-  await fs.mkdir(dir, { recursive: true });
+const generate = async (data: ConfigDataGroup | ConfigData, location: string) => {
+  if ("type" in data && typeof data.type === "string") {
+    const dir = path.join(location, data.name);
 
-  const types = await pluginsToRulesDTS(
-    { [item.prefix]: item.plugin },
-    { includeAugmentation: false, exportTypeName: item.type },
-  ).then((types) => types.replace(
-    `export interface ${item.type} {`,
-    "$&\n  [key: string]: Linter.RuleEntry<unknown[]>",
-  ));
+    const types = await pluginsToRulesDTS(
+      data.plugins,
+      { includeAugmentation: false, exportTypeName: data.type },
+    ).then((types) => types.replace(
+      `export interface ${data.type} {`,
+      "$&\n  [key: string]: Linter.RuleEntry<unknown[]>",
+    ));
 
-  await fs.writeFile(path.join(dir, "types.gen.ts"), types);
-
-  if (item.children?.length) {
-    await generate(item.children, dir);
+    await fs.mkdir(dir, { recursive: true });
+    await fs.writeFile(path.join(dir, "types.gen.ts"), types);
+  } else {
+    for (const item of data.items) {
+      await generate(item, path.join(location, data.name));
+    }
   }
-}));
+};
 
-await generate(data, path.resolve(import.meta.dirname, "../src/n1hron"));
+await generate(data, path.resolve(import.meta.dirname, "../src"));
