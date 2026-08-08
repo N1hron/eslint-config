@@ -7,8 +7,6 @@ export class CustomError extends Error {
   }
 }
 
-export type ConfigErrorParameters = ConstructorParameters<typeof ConfigError>;
-
 export class ConfigError extends CustomError {
   configName: string;
 
@@ -28,7 +26,7 @@ export class ConfigError extends CustomError {
   }
 }
 
-export type AggregateConfigErrorParameters = ConstructorParameters<typeof AggregateConfigError>;
+export type ConfigErrorParameters = ConstructorParameters<typeof ConfigError>;
 
 export class AggregateConfigError extends ConfigError {
   errors: ConfigError[];
