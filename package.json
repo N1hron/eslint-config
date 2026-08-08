@@ -21,6 +21,7 @@
   "scripts": {
     "build": "npm run typegen && tsdown",
     "fix": "eslint --fix",
+    "inspect-config": "eslint --inspect-config",
     "lint": "eslint",
     "lint:types": "tsc --noEmit",
     "prepack": "npm run build",
