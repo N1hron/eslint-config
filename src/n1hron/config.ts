@@ -75,18 +75,15 @@ const n1hron: N1hron = async (
   } = {},
 
   ...userConfigs
-) => defineConfig(
-  ...await resolve([
-    [n1hron.ignores, ignores],
-    [n1hron.javascript, javascript],
-    [n1hron.typescript, typescript],
-    [n1hron.stylistic, stylistic],
-    [n1hron.imports, imports],
-    [n1hron.perfectionist, perfectionist],
-    [n1hron.react, react],
-  ]),
-  ...userConfigs,
-);
+) => resolve([
+  [n1hron.ignores, ignores],
+  [n1hron.javascript, javascript],
+  [n1hron.typescript, typescript],
+  [n1hron.stylistic, stylistic],
+  [n1hron.imports, imports],
+  [n1hron.perfectionist, perfectionist],
+  [n1hron.react, react],
+]).then((configs) => defineConfig(...configs, ...userConfigs));
 
 n1hron.ignores = ignores;
 n1hron.javascript = javascript;

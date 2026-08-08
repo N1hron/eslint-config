@@ -1,19 +1,15 @@
-import { ConfigUtils } from "@/utils";
+import { ConfigCreator } from "@/utils";
 
-import type { Config, ConfigCreator } from "@/types";
 import type { ConfigOverrides } from "@/utils";
 
 export interface IgnoresOptions {
-  overrides?: ConfigOverrides<Config, "basePath" | "ignores" | "name">;
+  overrides?: Pick<ConfigOverrides, "basePath" | "ignores">;
 }
 
-type Ignores = ConfigCreator<IgnoresOptions>;
+const c = new ConfigCreator("n1hron/ignores");
 
-const utils = new ConfigUtils("n1hron/ignores");
-
-export const ignores: Ignores = ({ overrides = {} } = {}) => utils.override(
+export const ignores = c.define<IgnoresOptions>(({ overrides } = {}) => c.override(
   {
-    name: utils.configName,
     ignores: [
       "**/node_modules",
       "**/dist",
@@ -57,4 +53,4 @@ export const ignores: Ignores = ({ overrides = {} } = {}) => utils.override(
     ],
   },
   overrides,
-);
+));

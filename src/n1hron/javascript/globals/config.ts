@@ -1,8 +1,7 @@
-import { ConfigUtils } from "@/utils";
+import { ConfigCreator } from "@/utils";
 import { FILES_JS, FILES_JSX, FILES_TS, FILES_TSX } from "@/globs";
 
 import type { default as __globals } from "globals";
-import type { Config, ConfigCreator } from "@/types";
 import type { ConfigOverrides } from "@/utils";
 
 type Globals = typeof __globals;
@@ -14,21 +13,17 @@ export type JavascriptGlobalsOptions = {
   lib?: GlobalsLib;
   /** @default ["node"] */
   env?: GlobalsEnv;
-
-  overrides?: ConfigOverrides<Config, "basePath" | "files" | "ignores" | "languageOptions" | "name">;
+  overrides?: Pick<ConfigOverrides, "basePath" | "files" | "ignores" | "languageOptions">;
 };
 
-type JavascriptGlobals = ConfigCreator<JavascriptGlobalsOptions>;
+const c = new ConfigCreator("n1hron/javascript/globals");
 
-const utils = new ConfigUtils("n1hron/javascript/globals");
-
-export const globals: JavascriptGlobals = ({
+export const globals = c.define(async ({
   lib = "es2023",
   env = ["node"],
-  overrides = {},
-}: JavascriptGlobalsOptions = {}) => utils.load("globals").then(([globals]) => utils.override(
+  overrides,
+}: JavascriptGlobalsOptions = {}) => c.load("globals").then(([globals]) => c.override(
   {
-    name: utils.configName,
     files: [FILES_JS, FILES_JSX, FILES_TS, FILES_TSX],
     languageOptions: {
       globals: {
@@ -38,4 +33,4 @@ export const globals: JavascriptGlobals = ({
     },
   },
   overrides,
-));
+)));

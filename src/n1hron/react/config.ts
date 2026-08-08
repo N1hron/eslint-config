@@ -4,7 +4,7 @@ import { hooks } from "./hooks";
 import { refresh } from "./refresh";
 import { resolve } from "@/utils";
 
-import type { ConfigCreator } from "@/types";
+import type { DefineConfigArrayAsync } from "@/types";
 import type { ReactDomOptions } from "./dom";
 import type { ReactHooksOptions } from "./hooks";
 import type { ReactRefreshOptions } from "./refresh";
@@ -32,7 +32,7 @@ export interface ReactOptions {
   refresh?: boolean | ReactRefreshOptions;
 }
 
-interface React extends ConfigCreator<ReactOptions> {
+interface React extends DefineConfigArrayAsync<ReactOptions> {
   core: typeof core;
   dom: typeof dom;
   hooks: typeof hooks;

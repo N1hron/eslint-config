@@ -1,12 +1,12 @@
-import { ConfigUtils } from "@/utils";
+import { ConfigCreator } from "@/utils";
 import { FILES_JSX, FILES_TSX } from "@/globs";
 import { rules } from "./rules";
 
-import type { Config, ConfigCreator } from "@/types";
 import type { ConfigOverrides } from "@/utils";
+import type { NamelessConfig } from "@/types";
 import type { ReactRefreshRules } from "./types.gen";
 
-type ReactRefreshConfig = Config<ReactRefreshRules>;
+type ReactRefreshConfig = NamelessConfig<ReactRefreshRules>;
 
 export interface ReactRefreshOptions {
   /** @default "recommended" */
@@ -14,22 +14,17 @@ export interface ReactRefreshOptions {
   overrides?: ConfigOverrides<ReactRefreshConfig>;
 }
 
-type ReactRefresh = ConfigCreator<ReactRefreshOptions>;
+const c = new ConfigCreator<ReactRefreshConfig>("n1hron/react/refresh");
 
-const utils = new ConfigUtils("n1hron/react/refresh");
-
-export const refresh: ReactRefresh = ({
+export const refresh = c.define<ReactRefreshOptions>(({
   preset = "recommended",
-  overrides = {},
-} = {}) => utils.load("eslint-plugin-react-refresh").then(([
-  { default: reactRefresh },
-]) => utils.override<ReactRefreshConfig>(
+  overrides,
+} = {}) => c.load("eslint-plugin-react-refresh").then(([{ default: reactRefresh }]) => c.override(
   {
-    name: utils.configName,
     files: [FILES_JSX, FILES_TSX],
     extends: [reactRefresh.configs[preset]],
     plugins: { "react-refresh": reactRefresh },
     rules,
   },
   overrides,
-));
+)));
