@@ -8,16 +8,14 @@ const EXT = Symbol.for("EXT");
 const SET = Symbol.for("SET");
 const MAP = Symbol.for("MAP");
 
-interface GenericOverrider<T extends symbol, P> {
+interface Overrider<T extends symbol, P> {
   type: T;
   payload: P;
 }
 
-type ExtOverrider<T> = GenericOverrider<typeof EXT, T>;
-type SetOverrider<T> = GenericOverrider<typeof SET, T>;
-type MapOverrider<T> = GenericOverrider<typeof MAP, (value: T) => T>;
-
-export type Overrider<T> = ExtOverrider<T> | SetOverrider<T> | MapOverrider<T>;
+type ExtOverrider<T> = Overrider<typeof EXT, T>;
+type SetOverrider<T> = Overrider<typeof SET, T>;
+type MapOverrider<T> = Overrider<typeof MAP, (value: T) => T>;
 
 export function ext<T>(value: T): ExtOverrider<T> {
   return { type: EXT, payload: value };
@@ -31,7 +29,7 @@ export function map<T>(callback: (value: T) => T): MapOverrider<T> {
   return { type: MAP, payload: callback };
 }
 
-function isGenericOverrider(value: unknown): value is GenericOverrider<symbol, unknown> {
+function isOverrider(value: unknown): value is Overrider<symbol, unknown> {
   return (
     typeof value === "object" && value !== null &&
     "type" in value && typeof value.type === "symbol" &&
@@ -40,16 +38,18 @@ function isGenericOverrider(value: unknown): value is GenericOverrider<symbol, u
 }
 
 function isExtOverrider<T>(value: unknown): value is ExtOverrider<T> {
-  return isGenericOverrider(value) && value.type === EXT;
+  return isOverrider(value) && value.type === EXT;
 }
 
 function isSetOverrider<T>(value: unknown): value is SetOverrider<T> {
-  return isGenericOverrider(value) && value.type === SET;
+  return isOverrider(value) && value.type === SET;
 }
 
 function isMapOverrider<T>(value: unknown): value is MapOverrider<T> {
-  return isGenericOverrider(value) && value.type === MAP;
+  return isOverrider(value) && value.type === MAP;
 }
+
+export type ConfigOverrider<T> = ExtOverrider<T> | SetOverrider<T> | MapOverrider<T>;
 
 type ConfigOverridableField = Extract<keyof Config,
   | "name"
@@ -64,7 +64,7 @@ type ConfigOverridableField = Extract<keyof Config,
 >;
 
 export type ConfigOverrides<C extends Config = Config, K extends ConfigOverridableField = ConfigOverridableField> = {
-  [F in Extract<ConfigOverridableField, K>]?: Overrider<NonNullable<C[F]>>
+  [F in Extract<ConfigOverridableField, K>]?: ConfigOverrider<NonNullable<C[F]>>
 };
 
 interface Modules {
@@ -77,6 +77,7 @@ type ModuleValues<M extends Modules, N extends ModuleNames<M>> = { [K in keyof N
 
 interface KnownModules extends Modules {
   globals: typeof import("globals");
+
   "eslint-plugin-import-x": typeof import("eslint-plugin-import-x");
   "eslint-plugin-perfectionist": typeof import("eslint-plugin-perfectionist");
   "eslint-plugin-react-x": typeof import("eslint-plugin-react-x");
@@ -87,8 +88,8 @@ interface KnownModules extends Modules {
   "typescript-eslint": typeof import("typescript-eslint");
 }
 
-const extArr = <T>(base: T[], ext: T[]): T[] => base.concat(ext);
-const extObj = <T extends object>(base: T, ext: T): T => ({ ...base, ...ext });
+const extendArray = <T>(base: T[], ext: T[]): T[] => base.concat(ext);
+const extendObject = <T extends object>(base: T, ext: T): T => ({ ...base, ...ext });
 
 export class ConfigUtils {
   configName: string;
@@ -131,37 +132,37 @@ export class ConfigUtils {
     }
 
     if (overrides.files) {
-      config.files = this.#override(config.files || [], overrides.files, extArr);
+      config.files = this.#override(config.files || [], overrides.files, extendArray);
     }
 
     if (overrides.ignores) {
-      config.ignores = this.#override(config.ignores || [], overrides.ignores, extArr);
+      config.ignores = this.#override(config.ignores || [], overrides.ignores, extendArray);
     }
 
     if (overrides.languageOptions) {
-      config.languageOptions = this.#override(config.languageOptions || {}, overrides.languageOptions, extObj);
+      config.languageOptions = this.#override(config.languageOptions || {}, overrides.languageOptions, extendObject);
     }
 
     if (overrides.linterOptions) {
-      config.linterOptions = this.#override(config.linterOptions || {}, overrides.linterOptions, extObj);
+      config.linterOptions = this.#override(config.linterOptions || {}, overrides.linterOptions, extendObject);
     }
 
     if (overrides.plugins) {
-      config.plugins = this.#override(config.plugins || {}, overrides.plugins, extObj);
+      config.plugins = this.#override(config.plugins || {}, overrides.plugins, extendObject);
     }
 
     if (overrides.rules) {
-      config.rules = this.#override(config.rules || {}, overrides.rules, extObj);
+      config.rules = this.#override(config.rules || {}, overrides.rules, extendObject);
     }
 
     if (overrides.settings) {
-      config.settings = this.#override(config.settings || {}, overrides.settings, extObj);
+      config.settings = this.#override(config.settings || {}, overrides.settings, extendObject);
     }
 
     return config;
   }
 
-  #override<T>(value: T, overrider: Overrider<T>, extend: (base: T, ext: T) => T): T {
+  #override<T>(value: T, overrider: ConfigOverrider<T>, extend: (base: T, ext: T) => T): T {
     if (isExtOverrider<T>(overrider)) {
       return extend(value, overrider.payload);
     }
@@ -186,16 +187,9 @@ export class ConfigUtils {
   }
 }
 
-class FailedConfig {
-  name: string;
+type Creators<O extends unknown[]> = { [K in keyof O]: [ConfigCreator<O[K]>, O[K] | boolean] };
 
-  constructor(name: string) {
-    this.name = `FAILED > ${name}`;
-  }
-}
-
-type Creator<O> = [ConfigCreator<O>, O | boolean];
-type Creators<O extends unknown[]> = { [K in keyof O]: Creator<O[K]> };
+const createFailedConfig = (name: string) => ({ name: `FAILED > ${name}` });
 
 export async function resolve<O extends unknown[] = unknown[]>(creators: Creators<O>) {
   const configs = creators.reduce((configs, [create, options]) => {
@@ -212,7 +206,7 @@ export async function resolve<O extends unknown[] = unknown[]>(creators: Creator
     } catch (error) {
       if (error instanceof ConfigError) {
         error.report();
-        config = new FailedConfig(error.configName);
+        config = createFailedConfig(error.configName);
       } else throw error;
     }
 
@@ -230,7 +224,7 @@ export async function resolve<O extends unknown[] = unknown[]>(creators: Creator
       } catch (error) {
         if (error instanceof ConfigError) {
           error.report();
-          configs[i] = new FailedConfig(error.configName);
+          configs[i] = createFailedConfig(error.configName);
         } else throw error;
       }
     }

@@ -1,6 +1,4 @@
 export type ErrorParameters = ConstructorParameters<typeof Error>;
-export type ConfigErrorParameters = ConstructorParameters<typeof ConfigError>;
-export type AggregateConfigErrorParameters = ConstructorParameters<typeof AggregateConfigError>;
 
 export class CustomError extends Error {
   constructor(...args: ErrorParameters) {
@@ -9,11 +7,9 @@ export class CustomError extends Error {
   }
 }
 
-export abstract class ReportableError extends CustomError {
-  abstract report(): void;
-}
+export type ConfigErrorParameters = ConstructorParameters<typeof ConfigError>;
 
-export class ConfigError extends ReportableError {
+export class ConfigError extends CustomError {
   configName: string;
 
   constructor(configName: string, ...args: ErrorParameters) {
@@ -31,6 +27,8 @@ export class ConfigError extends ReportableError {
     }
   }
 }
+
+export type AggregateConfigErrorParameters = ConstructorParameters<typeof AggregateConfigError>;
 
 export class AggregateConfigError extends ConfigError {
   errors: ConfigError[];

@@ -76,7 +76,6 @@ const core: TypescriptRules & JavascriptCoreRules = {
     },
   ],
 
-  // Compats
   "no-array-constructor": "off",
   "no-unused-expressions": "off",
   "no-unused-private-class-members": "off",
@@ -119,7 +118,6 @@ const typechecked: TypescriptRules & JavascriptCoreRules = {
   "@typescript-eslint/prefer-promise-reject-errors": "error",
   "@typescript-eslint/require-await": "error",
 
-  // Compats
   "no-implied-eval": "off",
   "no-throw-literal": "off",
   "prefer-promise-reject-errors": "off",
