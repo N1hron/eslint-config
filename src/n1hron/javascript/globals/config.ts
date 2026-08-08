@@ -6,7 +6,7 @@ import type { ConfigOverrides } from "@/utils";
 
 type Globals = typeof __globals;
 type GlobalsLib = { [K in keyof Globals]: K extends `es${string}` ? K : never }[keyof Globals];
-type GlobalsEnv = Exclude<keyof Globals, GlobalsLib>[];
+type GlobalsEnv = Array<Exclude<keyof Globals, GlobalsLib>>;
 
 export type JavascriptGlobalsOptions = {
   /** @default "es2023" */

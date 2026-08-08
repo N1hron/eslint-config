@@ -93,7 +93,7 @@ interface KnownModules extends Modules {
 
 type FailedConfig<N extends string = string> = NamedConfig<`FAILED > ${N}`>;
 
-function extendArray<T>(base: T[], ext: T[]): T[] {
+function extendArray<T>(base: Array<T>, ext: Array<T>): Array<T> {
   return base.concat(ext);
 }
 
@@ -133,7 +133,7 @@ export class ConfigCreator<C extends NamelessConfig = NamelessConfig, N extends 
   async load<M extends Modules = KnownModules, N extends ModuleNames<M> = []>(...names: N) {
     const settled = await Promise.allSettled(names.map((n) => import(n) as unknown));
 
-    const [values, errors] = settled.reduce<[unknown[], ConfigError[]]>((acc, result, i) => {
+    const [values, errors] = settled.reduce<[Array<unknown>, Array<ConfigError>]>((acc, result, i) => {
       if (result.status === "fulfilled") {
         acc[0].push(result.value);
       } else {
@@ -229,11 +229,11 @@ export class ConfigCreator<C extends NamelessConfig = NamelessConfig, N extends 
   }
 }
 
-type Definers<O extends unknown[]> = { [K in keyof O]: [
+type Definers<O extends Array<unknown>> = { [K in keyof O]: [
   DefineConfigAsync<O[K]> | DefineConfigArrayAsync<O[K]>, O[K] | boolean]
 };
 
-export function resolve<O extends unknown[] = unknown[]>(definers: Definers<O>): Promise<ConfigArray> {
+export function resolve<O extends Array<unknown> = Array<unknown>>(definers: Definers<O>): Promise<ConfigArray> {
   return Promise.all(definers.reduce<Array<Promise<RecursiveConfig>>>((configs, [define, options]) => {
     if (options === true) {
       configs.push(define());

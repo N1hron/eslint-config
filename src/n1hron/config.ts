@@ -52,7 +52,7 @@ interface N1hronOptions {
 }
 
 interface N1hron {
-  (options?: N1hronOptions, ...userConfigs: ConfigArray): Promise<Linter.Config[]>;
+  (options?: N1hronOptions, ...userConfigs: ConfigArray): Promise<Array<Linter.Config>>;
 
   ignores: typeof ignores;
   javascript: typeof javascript;

@@ -29,7 +29,7 @@ export class ConfigError extends CustomError {
 export type ConfigErrorParameters = ConstructorParameters<typeof ConfigError>;
 
 export class AggregateConfigError extends ConfigError {
-  errors: ConfigError[];
+  errors: Array<ConfigError>;
 
   constructor(errors: Iterable<ConfigError>, ...args: ConfigErrorParameters) {
     super(...args);
