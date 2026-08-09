@@ -68,7 +68,7 @@ interface N1hron {
   react: typeof react;
 }
 
-const n1hron: N1hron = async (
+const n1hron: N1hron = (
   {
     ignores = true,
     javascript = true,

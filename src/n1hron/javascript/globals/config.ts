@@ -18,7 +18,7 @@ export type JavascriptGlobalsOptions = {
 
 const c = new ConfigCreator("n1hron/javascript/globals");
 
-export const globals = c.define(async ({
+export const globals = c.define(({
   lib = "es2023",
   env = ["node"],
   overrides,
