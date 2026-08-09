@@ -9,7 +9,7 @@ import type { ReactRefreshRules } from "./types.gen";
 type ReactRefreshConfig = NamelessConfig<ReactRefreshRules>;
 
 export interface ReactRefreshOptions {
-  /** @default "recommended" */
+  /** @default `"recommended"` */
   preset?: "vite" | "next" | "recommended";
   overrides?: ConfigOverrides<ReactRefreshConfig>;
 }

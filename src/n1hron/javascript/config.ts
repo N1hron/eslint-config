@@ -1,17 +1,17 @@
 import { core } from "./core";
+import { exists, resolve } from "@/utils";
 import { globals } from "./globals";
-import { resolve } from "@/utils";
 
 import type { DefineConfigArrayAsync } from "@/types";
 import type { JavascriptCoreOptions } from "./core";
 import type { JavascriptGlobalsOptions } from "./globals";
 
 export interface JavascriptOptions {
-  /** @default true */
+  /** @default `true` */
   core?: boolean | JavascriptCoreOptions;
   /**
-   * Requires {@link https://www.npmjs.com/package/globals|globals} to be installed
-   * @default false
+   * Requires {@link https://www.npmjs.com/package/globals|globals} to be installed.
+   * @default `false`
    */
   globals?: boolean | JavascriptGlobalsOptions;
 }
@@ -21,7 +21,7 @@ interface Javascript extends DefineConfigArrayAsync<JavascriptOptions> {
   globals: typeof globals;
 }
 
-const javascript: Javascript = ({ core = true, globals = false }: JavascriptOptions = {}) => resolve([
+const javascript: Javascript = ({ core = true, globals = exists("globals") }: JavascriptOptions = {}) => resolve([
   [javascript.core, core],
   [javascript.globals, globals],
 ]);

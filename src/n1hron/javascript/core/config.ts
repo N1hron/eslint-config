@@ -10,9 +10,9 @@ type JavascriptCoreConfig = NamelessConfig<JavascriptCoreRules>;
 
 export interface JavascriptCoreOptions {
   rulesets?: {
-    /** @default true */
+    /** @default `true` */
     core?: boolean;
-    /** @default true */
+    /** @default `true` */
     stylistic?: boolean;
   };
   overrides?: ConfigOverrides<JavascriptCoreConfig>;

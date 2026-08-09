@@ -17,10 +17,5 @@ export default n1hron({
       ignores: ext(["**/*.gen.ts"]),
     },
   },
-
-  javascript: true,
-  typescript: true,
-  stylistic: true,
-  imports: true,
-  perfectionist: true,
+  react: false,
 });

@@ -245,3 +245,37 @@ export function resolve<O extends Array<unknown> = Array<unknown>>(definers: Def
     return configs;
   }, []));
 }
+
+export function exists(...modules: Array<string>) {
+  return modules.every(existsOneCached);
+}
+
+export function existsAny(...modules: Array<string>) {
+  return modules.some(existsOneCached);
+}
+
+const existsCache = new Map<string, boolean>();
+
+function existsOneCached(module: string) {
+  if (!existsCache.has(module)) {
+    existsCache.set(module, existsOne(module));
+  }
+  return existsCache.get(module)!;
+}
+
+function existsOne(module: string) {
+  try {
+    require.resolve(module);
+    return true;
+  } catch (error) {
+    if (
+      typeof error === "object" &&
+      error != null &&
+      "code" in error &&
+      error.code === "MODULE_NOT_FOUND"
+    ) {
+      return false;
+    }
+    throw error;
+  }
+}

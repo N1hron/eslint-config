@@ -9,9 +9,9 @@ type GlobalsLib = { [K in keyof Globals]: K extends `es${string}` ? K : never }[
 type GlobalsEnv = Array<Exclude<keyof Globals, GlobalsLib>>;
 
 export type JavascriptGlobalsOptions = {
-  /** @default "es2023" */
+  /** @default `"es2023"` */
   lib?: GlobalsLib;
-  /** @default ["node"] */
+  /** @default `["node"]` */
   env?: GlobalsEnv;
   overrides?: Pick<ConfigOverrides, "basePath" | "files" | "ignores" | "languageOptions">;
 };

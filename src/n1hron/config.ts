@@ -1,10 +1,10 @@
 import { defineConfig } from "eslint/config";
+import { exists, existsAny, resolve } from "@/utils";
 import { ignores } from "./ignores";
 import { imports } from "./imports";
 import { javascript } from "./javascript";
 import { perfectionist } from "./perfectionist";
 import { react } from "./react";
-import { resolve } from "@/utils";
 import { stylistic } from "./stylistic";
 import { typescript } from "./typescript";
 
@@ -19,34 +19,39 @@ import type { StylisticOptions } from "./stylistic";
 import type { TypescriptOptions } from "./typescript";
 
 interface N1hronOptions {
-  /** @default true */
+  /** @default `true` */
   ignores?: boolean | IgnoresOptions;
-  /** @default true */
+  /** @default `true` */
   javascript?: boolean | JavascriptOptions;
 
   /**
-   * Requires {@link https://www.npmjs.com/package/typescript-eslint|typescript-eslint} to be installed
-   * @default false
+   * Requires {@link https://www.npmjs.com/package/typescript-eslint|typescript-eslint} to be installed.
+   * @default `true` if {@link https://www.npmjs.com/package/typescript-eslint|typescript-eslint} installed, `false` otherwise.
    */
   typescript?: boolean | TypescriptOptions;
   /**
-   * Requires {@link https://www.npmjs.com/package/eslint-plugin-import-x|eslint-plugin-import-x} to be installed
-   * @default false
+   * Requires {@link https://www.npmjs.com/package/eslint-plugin-import-x|eslint-plugin-import-x} to be installed.
+   * @default `true` if {@link https://www.npmjs.com/package/eslint-plugin-import-x|eslint-plugin-import-x} installed, `false` otherwise.
    */
   imports?: boolean | ImportsOptions;
   /**
-   * Requires {@link https://www.npmjs.com/package/@stylistic/eslint-plugin|@stylistic/eslint-plugin} to be installed
-   * @default false
+   * Requires {@link https://www.npmjs.com/package/@stylistic/eslint-plugin|@stylistic/eslint-plugin} to be installed.
+   * @default `true` if {@link https://www.npmjs.com/package/@stylistic/eslint-plugin|@stylistic/eslint-plugin} installed, `false` otherwise.
    */
   stylistic?: boolean | StylisticOptions;
   /**
-   * Requires {@link https://www.npmjs.com/package/eslint-plugin-perfectionist|eslint-plugin-perfectionist} to be installed
-   * @default false
+   * @default `true` if {@link https://www.npmjs.com/package/eslint-plugin-perfectionist|eslint-plugin-perfectionist} installed, `false` otherwise.
    */
   perfectionist?: boolean | PerfectionistOptions;
   /**
-   * Requires {@link https://www.npmjs.com/package/eslint-plugin-react-x|eslint-plugin-react-x} to be installed
-   * @default false
+   * @default `true` if any of these installed:
+   *
+   * - {@link https://www.npmjs.com/package/eslint-plugin-react-x|eslint-plugin-react-x},
+   * - {@link https://www.npmjs.com/package/eslint-plugin-react-dom|eslint-plugin-react-dom},
+   * - {@link https://www.npmjs.com/package/eslint-plugin-react-hooks|eslint-plugin-react-hooks},
+   * - {@link https://www.npmjs.com/package/eslint-plugin-react-refresh|eslint-plugin-react-refresh}.
+   *
+   * `false` otherwise.
    */
   react?: boolean | ReactOptions;
 }
@@ -67,11 +72,18 @@ const n1hron: N1hron = async (
   {
     ignores = true,
     javascript = true,
-    typescript = false,
-    stylistic = false,
-    imports = false,
-    perfectionist = false,
-    react = false,
+
+    typescript = exists("typescript-eslint"),
+    stylistic = exists("@stylistic/eslint-plugin"),
+    imports = exists("eslint-plugin-import-x"),
+    perfectionist = exists("eslint-plugin-perfectionist"),
+
+    react = existsAny(
+      "eslint-plugin-react-x",
+      "eslint-plugin-react-dom",
+      "eslint-plugin-react-hooks",
+      "eslint-plugin-react-refresh",
+    ),
   } = {},
 
   ...userConfigs
