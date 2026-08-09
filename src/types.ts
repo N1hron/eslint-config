@@ -1,21 +1,12 @@
 import type { ConfigWithExtends as ESLintConfig } from "@eslint/config-helpers";
-// import type { defineConfig } from "eslint/config";
 import type { Linter } from "eslint";
 
-// export type Prettify<T> = { [K in keyof T]: T[K] } & {};
-export type Constructor<A extends Array<unknown> = Array<unknown>, R = void> = new (...args: A) => R;
 export type Shift<T extends Array<unknown>> = T extends [unknown?, ...infer R] ? R : [];
 export type Nameless<C> = Omit<C, "name">;
-// export type MaybeArray<T> = T | Array<T>;
 export type MaybePromise<T> = T | Promise<T>;
 export type Recursive<T> = T | Array<Recursive<T>>;
 export type RecursiveArray<T> = Array<Recursive<T>>;
-// export type Override<L, R> = Prettify<Omit<L, keyof R> & R>;
 
-// export type ESLintPlugin = ESLint.Plugin;
-// export type ESLintDefineConfig = typeof defineConfig;
-// export type ESLintConfig = Exclude<Parameters<ESLintDefineConfig>[number], Array<unknown>>;
-// export type ESLintRules = NonNullable<ESLintConfig["rules"]>;
 type ESLintRules = NonNullable<ESLintConfig["rules"]>;
 
 export interface Config<R extends ESLintRules = ESLintRules> extends ESLintConfig {
