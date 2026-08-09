@@ -1,7 +1,7 @@
 import { builtinRules } from "eslint/use-at-your-own-risk";
 import { pluginsToRulesDTS } from "eslint-typegen/core";
 
-import type { ESLintPlugin } from "@/types";
+import type { Plugin } from "@eslint/config-helpers";
 
 import fs from "fs/promises";
 import path from "path";
@@ -17,7 +17,7 @@ import tseslint from "typescript-eslint";
 interface ConfigData {
   name: string;
   type: string;
-  plugins: Record<string, ESLintPlugin>;
+  plugins: Record<string, Plugin>;
 
   items?: never;
 }
@@ -75,7 +75,7 @@ const data: ConfigDataGroup = {
         {
           name: "hooks",
           type: "ReactHooksRules",
-          plugins: { "react-hooks": reactHooks as ESLintPlugin },
+          plugins: { "react-hooks": reactHooks as Plugin },
         },
         {
           name: "dom",

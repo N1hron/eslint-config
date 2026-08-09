@@ -1,5 +1,6 @@
-import type { defineConfig } from "eslint/config";
-import type { ESLint, Linter } from "eslint";
+import type { ConfigWithExtends as ESLintConfig } from "@eslint/config-helpers";
+// import type { defineConfig } from "eslint/config";
+import type { Linter } from "eslint";
 
 // export type Prettify<T> = { [K in keyof T]: T[K] } & {};
 export type Constructor<A extends Array<unknown> = Array<unknown>, R = void> = new (...args: A) => R;
@@ -11,14 +12,14 @@ export type Recursive<T> = T | Array<Recursive<T>>;
 export type RecursiveArray<T> = Array<Recursive<T>>;
 // export type Override<L, R> = Prettify<Omit<L, keyof R> & R>;
 
-export type ESLintPlugin = ESLint.Plugin;
-export type ESLintDefineConfig = typeof defineConfig;
-export type ESLintConfig = Exclude<Parameters<ESLintDefineConfig>[number], Array<unknown>>;
-export type ESLintRules = NonNullable<ESLintConfig["rules"]>;
-export type ESLintLanguageOptions = Linter.LanguageOptions;
+// export type ESLintPlugin = ESLint.Plugin;
+// export type ESLintDefineConfig = typeof defineConfig;
+// export type ESLintConfig = Exclude<Parameters<ESLintDefineConfig>[number], Array<unknown>>;
+// export type ESLintRules = NonNullable<ESLintConfig["rules"]>;
+type ESLintRules = NonNullable<ESLintConfig["rules"]>;
 
 export interface Config<R extends ESLintRules = ESLintRules> extends ESLintConfig {
-  languageOptions?: ESLintLanguageOptions;
+  languageOptions?: Linter.LanguageOptions;
   rules?: R;
 }
 
