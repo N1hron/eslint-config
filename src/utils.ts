@@ -1,4 +1,5 @@
 import type {
+  Config,
   ConfigArray,
   DefineConfig,
   DefineConfigArrayAsync,
@@ -65,8 +66,8 @@ function isMapOverrider<T>(value: unknown): value is MapOverrider<T> {
 
 export type ConfigOverrider<T> = ExtOverrider<T> | SetOverrider<T> | MapOverrider<T>;
 
-export type ConfigOverrides<C extends NamedConfig = NamedConfig> = {
-  [K in Extract<keyof NamedConfig,
+export type ConfigOverrides<C extends Config = Config> = {
+  [K in Extract<keyof Config,
   | "basePath"
   | "files"
   | "ignores"
