@@ -1,11 +1,11 @@
 import type { PerfectionistRules } from "./types.gen";
 
 export const rules: PerfectionistRules = {
-  "perfectionist/sort-named-imports": ["error", { type: "natural", order: "asc" }],
-  "perfectionist/sort-named-exports": ["error", { type: "natural", order: "asc" }],
+  "perfectionist/sort-named-imports": ["warn", { type: "natural", order: "asc" }],
+  "perfectionist/sort-named-exports": ["warn", { type: "natural", order: "asc" }],
 
   "perfectionist/sort-imports": [
-    "error",
+    "warn",
     {
       type: "natural",
       order: "asc",
@@ -65,7 +65,7 @@ export const rules: PerfectionistRules = {
   ],
 
   "perfectionist/sort-exports": [
-    "error",
+    "warn",
     {
       type: "natural",
       order: "asc",
