@@ -1,5 +1,62 @@
 import type { ReactCoreRules } from "./types.gen";
 
-export const rules: ReactCoreRules = {
+const core: ReactCoreRules = {
+  "react-x/error-boundaries": "error",
+  "react-x/globals": "error",
+  "react-x/immutability": "error",
+  "react-x/no-access-state-in-setstate": "error",
+  "react-x/no-create-ref": "error",
+  "react-x/no-direct-mutation-state": "error",
+  "react-x/no-duplicate-key": "error",
+  "react-x/no-nested-component-definitions": "error",
+  "react-x/no-nested-lazy-component-declarations": "error",
+  "react-x/no-misused-capture-owner-stack": "error",
+  "react-x/no-unstable-context-value": "error",
+  "react-x/no-unstable-default-props": "error",
+  "react-x/rules-of-hooks": "error",
+  "react-x/unsupported-syntax": "error",
+  "react-x/use-memo": "error",
+  "react-x/purity": "error",
+  "react-x/static-components": "error",
 
+  "react-x/exhaustive-deps": "warn",
+  "react-x/no-array-index-key": "warn",
+  "react-x/no-missing-key": "warn",
+  "react-x/no-children-count": "warn",
+  "react-x/no-children-for-each": "warn",
+  "react-x/no-children-map": "warn",
+  "react-x/no-children-only": "warn",
+  "react-x/no-children-to-array": "warn",
+  "react-x/no-class-component": "warn",
+  "react-x/no-clone-element": "warn",
+  "react-x/no-component-will-mount": "warn",
+  "react-x/no-component-will-receive-props": "warn",
+  "react-x/no-component-will-update": "warn",
+  "react-x/no-context-provider": "warn",
+  "react-x/no-forward-ref": "warn",
+  "react-x/no-missing-component-display-name": "warn",
+  "react-x/no-missing-context-display-name": "warn",
+  "react-x/no-set-state-in-component-did-mount": "warn",
+  "react-x/no-set-state-in-component-did-update": "warn",
+  "react-x/no-set-state-in-component-will-update": "warn",
+  "react-x/no-unnecessary-use-prefix": "warn",
+  "react-x/no-use-context": "warn",
+  "react-x/no-unsafe-component-will-mount": "warn",
+  "react-x/no-unsafe-component-will-receive-props": "warn",
+  "react-x/no-unsafe-component-will-update": "warn",
+  "react-x/no-unused-state": "warn",
+  "react-x/refs": "warn",
+  "react-x/set-state-in-effect": "warn",
+  "react-x/set-state-in-render": "warn",
+  "react-x/use-state": "warn",
 };
+
+const typechecked: ReactCoreRules = {
+  "react-x/no-leaked-conditional-rendering": "warn",
+  "react-x/no-unused-props": "warn",
+  "react-x/no-implicit-children": "warn",
+  "react-x/no-implicit-key": "warn",
+  "react-x/no-implicit-ref": "warn",
+};
+
+export const rules = { core, typechecked };
