@@ -44,6 +44,7 @@ const core: ReactCoreRules = {
   "react-x/no-unsafe-component-will-mount": "warn",
   "react-x/no-unsafe-component-will-receive-props": "warn",
   "react-x/no-unsafe-component-will-update": "warn",
+  "react-x/no-unused-class-component-members": "warn",
   "react-x/no-unused-state": "warn",
   "react-x/refs": "warn",
   "react-x/set-state-in-effect": "warn",
