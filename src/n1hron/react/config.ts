@@ -5,6 +5,7 @@ import { hooks } from "./hooks";
 import { refresh } from "./refresh";
 
 import type { DefineConfigArrayAsync } from "@/types";
+import type { ReactCoreOptions } from "./core";
 import type { ReactDomOptions } from "./dom";
 import type { ReactHooksOptions } from "./hooks";
 import type { ReactRefreshOptions } from "./refresh";
@@ -14,7 +15,7 @@ export interface ReactOptions {
    * Requires {@link https://www.npmjs.com/package/eslint-plugin-react-x|eslint-plugin-react-x} to be installed.
    * @default `true` if {@link https://www.npmjs.com/package/eslint-plugin-react-x|eslint-plugin-react-x} installed, `false` otherwise.
    */
-  core?: boolean | ReactDomOptions;
+  core?: boolean | ReactCoreOptions;
   /**
    * Requires {@link https://www.npmjs.com/package/eslint-plugin-react-dom|eslint-plugin-react-dom} to be installed.
    * @default `true` if {@link https://www.npmjs.com/package/eslint-plugin-react-dom|eslint-plugin-react-dom} installed, `false` otherwise.
