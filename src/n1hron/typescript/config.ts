@@ -11,11 +11,11 @@ type TypescriptConfig = NamelessConfig<TypescriptRules & JavascriptCoreRules>;
 
 export interface TypescriptOptions {
   rulesets?: {
-    /** @default true */
+    /** @default `true` */
     core?: boolean;
-    /** @default true */
+    /** @default `true` */
     stylistic?: boolean;
-    /** @default true */
+    /** @default `true` */
     typechecked?: boolean;
   };
   overrides?: ConfigOverrides<TypescriptConfig>;
