@@ -34,6 +34,8 @@
     "@n1hron/tsconfig": "^2.0.0",
     "@stylistic/eslint-plugin": "^5.10.0",
     "@types/node": "^26.1.1",
+    "@typescript-eslint/eslint-plugin": "^8.67.0",
+    "@typescript-eslint/parser": "^8.67.0",
     "@typescript/native": "npm:typescript@^7.0.2",
     "eslint": "^10.8.0",
     "eslint-plugin-import-x": "^4.17.1",
@@ -48,11 +50,12 @@
     "oxfmt": "^0.60.0",
     "tsdown": "^0.22.4",
     "tsx": "^4.23.0",
-    "typescript": "npm:@typescript/typescript6@^6.0.2",
-    "typescript-eslint": "^8.65.0"
+    "typescript": "npm:@typescript/typescript6@^6.0.2"
   },
   "peerDependencies": {
     "@stylistic/eslint-plugin": "^5.10.0",
+    "@typescript-eslint/eslint-plugin": "^8.67.0",
+    "@typescript-eslint/parser": "^8.67.0",
     "eslint": "^10.8.0",
     "eslint-plugin-import-x": "^4.17.1",
     "eslint-plugin-perfectionist": "^5.10.0",
@@ -60,10 +63,15 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.3",
     "eslint-plugin-react-x": "^5.14.7",
-    "globals": "^17.8.0",
-    "typescript-eslint": "^8.65.0"
+    "globals": "^17.8.0"
   },
   "peerDependenciesMeta": {
+    "@typescript-eslint/eslint-plugin": {
+      "optional": true
+    },
+    "@typescript-eslint/parser": {
+      "optional": true
+    },
     "@stylistic/eslint-plugin": {
       "optional": true
     },

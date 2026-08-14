@@ -25,8 +25,11 @@ interface N1hronOptions {
   javascript?: boolean | JavascriptOptions;
 
   /**
-   * Requires {@link https://www.npmjs.com/package/typescript-eslint|typescript-eslint} to be installed.
-   * @default `true` if {@link https://www.npmjs.com/package/typescript-eslint|typescript-eslint} installed, `false` otherwise.
+   * Requires {@link https://www.npmjs.com/package/@typescript-eslint/eslint-plugin|@typescript-eslint/eslint-plugin}
+   * and {@link https://www.npmjs.com/package/@typescript-eslint/parser|@typescript-eslint/eslint-plugin} to be installed.
+   *
+   * @default `true` if {@link https://www.npmjs.com/package/@typescript-eslint/eslint-plugin|@typescript-eslint/eslint-plugin}
+   * and {@link https://www.npmjs.com/package/@typescript-eslint/parser|@typescript-eslint/eslint-plugin} are installed, `false` otherwise.
    */
   typescript?: boolean | TypescriptOptions;
   /**
@@ -73,7 +76,7 @@ const n1hron: N1hron = (
     ignores = true,
     javascript = true,
 
-    typescript = exists("typescript-eslint"),
+    typescript = exists("@typescript-eslint/eslint-plugin", "@typescript-eslint/parser"),
     stylistic = exists("@stylistic/eslint-plugin"),
     imports = exists("eslint-plugin-import-x"),
     perfectionist = exists("eslint-plugin-perfectionist"),

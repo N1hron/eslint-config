@@ -89,7 +89,8 @@ interface KnownModules extends Modules {
   "eslint-plugin-react-hooks": typeof import("eslint-plugin-react-hooks");
   "eslint-plugin-react-refresh": typeof import("eslint-plugin-react-refresh");
   "@stylistic/eslint-plugin": typeof import("@stylistic/eslint-plugin");
-  "typescript-eslint": typeof import("typescript-eslint");
+  "@typescript-eslint/eslint-plugin": typeof import("@typescript-eslint/eslint-plugin");
+  "@typescript-eslint/parser": typeof import("@typescript-eslint/parser");
 }
 
 type FailedConfig<N extends string = string> = NamedConfig<`FAILED > ${N}`>;

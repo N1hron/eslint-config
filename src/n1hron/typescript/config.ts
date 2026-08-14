@@ -2,6 +2,7 @@ import { ConfigCreator } from "@/utils";
 import { FILES_TS, FILES_TSX } from "@/globs";
 import { rules } from "./rules";
 
+import type { Plugin } from "@eslint/config-helpers";
 import type { ConfigOverrides } from "@/utils";
 import type { JavascriptCoreRules } from "../javascript/core";
 import type { NamelessConfig } from "@/types";
@@ -26,14 +27,16 @@ const c = new ConfigCreator<TypescriptConfig>("n1hron/typescript");
 export const typescript = c.define<TypescriptOptions>(({
   rulesets: { core = true, stylistic = true, typechecked = true } = {},
   overrides,
-} = {}) => c.load("typescript-eslint").then(([tseslint]) => c.override(
+} = {}) => c.load("@typescript-eslint/eslint-plugin", "@typescript-eslint/parser").then((tseslint) => c.override(
   {
     files: [FILES_TS, FILES_TSX],
-    extends: [tseslint.configs.base],
+    plugins: {
+      "@typescript-eslint": tseslint[0] as unknown as Plugin,
+    },
     languageOptions: {
-      parserOptions: {
-        projectService: typechecked,
-      },
+      parser: tseslint[1],
+      sourceType: "module",
+      parserOptions: { projectService: typechecked },
     },
     rules: {
       ...rules.compats,

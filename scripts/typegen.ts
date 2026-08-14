@@ -12,7 +12,7 @@ import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
 import reactX from "eslint-plugin-react-x";
 import stylistic from "@stylistic/eslint-plugin";
-import tseslint from "typescript-eslint";
+import tseslint from "@typescript-eslint/eslint-plugin";
 
 interface ConfigData {
   name: string;
@@ -36,7 +36,7 @@ const data: ConfigDataGroup = {
     {
       name: "typescript",
       type: "TypescriptRules",
-      plugins: { "@typescript-eslint": tseslint.plugin },
+      plugins: { "@typescript-eslint": tseslint as unknown as Plugin },
     },
     {
       name: "stylistic",
