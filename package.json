@@ -19,7 +19,8 @@
     }
   },
   "scripts": {
-    "build": "npm run typegen && tsdown",
+    "build": "npm run typegen && npm run build:only",
+    "build:only": "tsdown",
     "fix": "eslint --fix",
     "inspect-config": "eslint --inspect-config",
     "lint": "eslint",
