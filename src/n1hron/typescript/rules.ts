@@ -47,12 +47,15 @@ const core: TypescriptRules & JavascriptCoreRules = {
   "@typescript-eslint/no-unused-expressions": "error",
   "@typescript-eslint/no-unused-private-class-members": "error",
 
-  "@typescript-eslint/ban-ts-comment": ["error", {
-    "ts-check": false,
-    "ts-nocheck": "allow-with-description",
-    "ts-expect-error": "allow-with-description",
-    "ts-ignore": true,
-  }],
+  "@typescript-eslint/ban-ts-comment": [
+    "error",
+    {
+      "ts-check": false,
+      "ts-nocheck": "allow-with-description",
+      "ts-expect-error": "allow-with-description",
+      "ts-ignore": true,
+    },
+  ],
 
   "@typescript-eslint/no-unused-vars": [
     "error",
