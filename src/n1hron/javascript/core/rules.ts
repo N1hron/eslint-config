@@ -52,7 +52,7 @@ const core: JavascriptCoreRules = {
   "valid-typeof": "error",
 };
 
-const stylistic: JavascriptCoreRules = {
+const suggestions: JavascriptCoreRules = {
   "class-methods-use-this": "error",
   curly: ["error", "multi-line"],
   eqeqeq: ["error", "smart"],
@@ -97,4 +97,4 @@ const stylistic: JavascriptCoreRules = {
   "require-yield": "error",
 };
 
-export const rules = { core, stylistic };
+export const rules = { core, suggestions };

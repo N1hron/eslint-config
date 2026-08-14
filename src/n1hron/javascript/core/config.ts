@@ -13,7 +13,7 @@ export interface JavascriptCoreOptions {
     /** @default `true` */
     core?: boolean;
     /** @default `true` */
-    stylistic?: boolean;
+    suggestions?: boolean;
   };
   overrides?: ConfigOverrides<JavascriptCoreConfig>;
 }
@@ -21,14 +21,14 @@ export interface JavascriptCoreOptions {
 const c = new ConfigCreator<JavascriptCoreConfig>("n1hron/javascript");
 
 export const core = c.define<JavascriptCoreOptions>(({
-  rulesets: { core = true, stylistic = true } = {},
+  rulesets: { core = true, suggestions = true } = {},
   overrides,
 } = {}) => c.override(
   {
     files: [FILES_JS, FILES_JSX, FILES_TS, FILES_TSX],
     rules: {
       ...(core && rules.core),
-      ...(stylistic && rules.stylistic),
+      ...(suggestions && rules.suggestions),
     },
   },
   overrides,
