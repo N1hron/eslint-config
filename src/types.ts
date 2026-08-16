@@ -6,6 +6,7 @@ export type Nameless<C> = Omit<C, "name">;
 export type MaybePromise<T> = T | Promise<T>;
 export type Recursive<T> = T | Array<Recursive<T>>;
 export type RecursiveArray<T> = Array<Recursive<T>>;
+export type CustomRecord<K extends PropertyKey = PropertyKey, V = unknown> = Record<K, V>;
 
 type ESLintRules = NonNullable<ESLintConfig["rules"]>;
 
@@ -46,10 +47,14 @@ export interface DefineConfigArrayAsync<O = unknown, C extends Config = Config> 
   (options?: O): Promise<RecursiveArray<C>>;
 }
 
-export interface Modules {
-  [name: string]: object;
-}
+export type Modules = CustomRecord<string>;
 
 export type ModuleName<M extends Modules> = Exclude<keyof M, number | symbol>;
 export type ModuleNames<M extends Modules> = Array<ModuleName<M>>;
 export type ModuleValues<M extends Modules, N extends ModuleNames<M>> = { [K in keyof N]: M[N[K]] };
+
+export type InteropDefault<T> = T extends { default: infer D } ? D : T;
+
+export type InteropDefaultRecord<T extends Record<PropertyKey, unknown>> = {
+  [K in keyof T]: InteropDefault<T[K]>
+};

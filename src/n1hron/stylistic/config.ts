@@ -16,7 +16,7 @@ const c = new ConfigCreator<StylisticConfig>("n1hron/stylistic");
 
 export const stylistic = c.define<StylisticOptions>((
   { overrides } = {},
-) => c.load("@stylistic/eslint-plugin").then(([{ default: stylistic }]) => c.override(
+) => c.load("@stylistic/eslint-plugin").then(([stylistic]) => c.override(
   {
     files: [FILES_JS, FILES_JSX, FILES_TS, FILES_TSX],
     plugins: { "@stylistic": stylistic },

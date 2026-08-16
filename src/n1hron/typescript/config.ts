@@ -27,14 +27,17 @@ const c = new ConfigCreator<TypescriptConfig>("n1hron/typescript");
 export const typescript = c.define<TypescriptOptions>(({
   rulesets: { core = true, stylistic = true, typechecked = true } = {},
   overrides,
-} = {}) => c.load("@typescript-eslint/eslint-plugin", "@typescript-eslint/parser").then((tseslint) => c.override(
+} = {}) => c.load(
+  "@typescript-eslint/parser",
+  "@typescript-eslint/eslint-plugin",
+).then(([parser, plugin]) => c.override(
   {
     files: [FILES_TS, FILES_TSX],
     plugins: {
-      "@typescript-eslint": tseslint[0] as unknown as Plugin,
+      "@typescript-eslint": plugin as unknown as Plugin,
     },
     languageOptions: {
-      parser: tseslint[1],
+      parser: parser,
       sourceType: "module",
       parserOptions: { projectService: typechecked },
     },

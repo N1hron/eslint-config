@@ -16,7 +16,7 @@ const c = new ConfigCreator<ImportsConfig>("n1hron/imports");
 
 export const imports = c.define<ImportsOptions>(({
   overrides,
-} = {}) => c.load("eslint-plugin-import-x").then(([{ importX }]) => c.override(
+} = {}) => c.load("eslint-plugin-import-x").then(([importX]) => c.override(
   {
     files: [FILES_JS, FILES_JSX, FILES_TS, FILES_TSX],
     plugins: { "import-x": importX },

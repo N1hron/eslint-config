@@ -4,6 +4,8 @@ import type {
   DefineConfig,
   DefineConfigArrayAsync,
   DefineConfigAsync,
+  InteropDefault,
+  InteropDefaultRecord,
   MaybePromise,
   ModuleNames,
   Modules,
@@ -137,7 +139,7 @@ export class ConfigCreator<C extends NamelessConfig = NamelessConfig, N extends 
 
     const [values, errors] = settled.reduce<[Array<unknown>, Array<ConfigError>]>((acc, result, i) => {
       if (result.status === "fulfilled") {
-        acc[0].push(result.value);
+        acc[0].push(interopDefault(result.value));
       } else {
         const message = `Failed to load module "${names[i]!}". Make sure it is installed`;
         acc[1].push(this.#error(message, { cause: result.reason }));
@@ -149,7 +151,7 @@ export class ConfigCreator<C extends NamelessConfig = NamelessConfig, N extends 
       throw this.#aggregateError(errors, "Failed to load modules");
     }
 
-    return values as ModuleValues<M, N>;
+    return values as ModuleValues<InteropDefaultRecord<M>, N>;
   }
 
   override(config: C, overrides: ConfigOverrides<C> | undefined): C {
@@ -279,4 +281,11 @@ function existsOne(module: string) {
     }
     throw error;
   }
+}
+
+function interopDefault<T>(value: T): InteropDefault<T> {
+  if (typeof value === "object" && value !== null && "default" in value) {
+    return value.default as InteropDefault<T>;
+  }
+  return value as InteropDefault<T>;
 }

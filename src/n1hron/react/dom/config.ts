@@ -16,7 +16,7 @@ const c = new ConfigCreator<ReactDomConfig>("n1hron/react/dom");
 
 export const dom = c.define<ReactDomOptions>(({
   overrides,
-} = {}) => c.load("eslint-plugin-react-dom").then(([{ default: reactDOM }]) => c.override(
+} = {}) => c.load("eslint-plugin-react-dom").then(([reactDOM]) => c.override(
   {
     files: [FILES_JSX, FILES_TSX],
     plugins: { "react-dom": reactDOM },

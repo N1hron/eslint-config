@@ -19,7 +19,7 @@ const c = new ConfigCreator<ReactRefreshConfig>("n1hron/react/refresh");
 export const refresh = c.define<ReactRefreshOptions>(({
   preset = "recommended",
   overrides,
-} = {}) => c.load("eslint-plugin-react-refresh").then(([{ default: reactRefresh }]) => c.override(
+} = {}) => c.load("eslint-plugin-react-refresh").then(([reactRefresh]) => c.override(
   {
     files: [FILES_JSX, FILES_TSX],
     extends: [reactRefresh.configs[preset]],
