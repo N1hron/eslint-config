@@ -21,7 +21,7 @@ export interface ReactCoreOptions {
 const c = new ConfigCreator<ReactCoreConfig>("n1hron/react/core");
 
 export const core = c.define<ReactCoreOptions>(({
-  rulesets: { core = true, typechecked = exists("typescript-eslint") } = {},
+  rulesets: { core = true, typechecked = exists("@typescript-eslint/eslint-plugin", "@typescript-eslint/parser") } = {},
   overrides,
 } = {}) => c.load("eslint-plugin-react-x").then(([reactX]) => c.override(
   {
