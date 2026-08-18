@@ -3,7 +3,10 @@
   "version": "0.1.0",
   "description": "Personal opinionated eslint config",
   "license": "MIT",
-  "author": "N1hron",
+  "author": {
+    "name": "N1hron",
+    "email": "n1hron@yandex.com"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/N1hron/eslint-config.git"
