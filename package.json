@@ -1,6 +1,6 @@
 {
   "name": "@n1hron/eslint-config",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Personal opinionated eslint config",
   "license": "MIT",
   "author": "N1hron",
