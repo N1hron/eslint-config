@@ -24,7 +24,7 @@ export const refresh = c.define<ReactRefreshOptions>(({
     files: [FILES_JSX, FILES_TSX],
     extends: [reactRefresh.configs[preset]],
     plugins: { "react-refresh": reactRefresh },
-    rules,
+    rules: { ...rules },
   },
   overrides,
 )));

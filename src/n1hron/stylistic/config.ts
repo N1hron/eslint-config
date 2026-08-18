@@ -14,13 +14,13 @@ export interface StylisticOptions {
 
 const c = new ConfigCreator<StylisticConfig>("n1hron/stylistic");
 
-export const stylistic = c.define<StylisticOptions>((
-  { overrides } = {},
-) => c.load("@stylistic/eslint-plugin").then(([stylistic]) => c.override(
+export const stylistic = c.define<StylisticOptions>(({
+  overrides,
+} = {}) => c.load("@stylistic/eslint-plugin").then(([stylistic]) => c.override(
   {
     files: [FILES_JS, FILES_JSX, FILES_TS, FILES_TSX],
     plugins: { "@stylistic": stylistic },
-    rules,
+    rules: { ...rules },
   },
   overrides,
 )));

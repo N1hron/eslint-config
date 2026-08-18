@@ -27,8 +27,8 @@ export const core = c.define<JavascriptCoreOptions>(({
   {
     files: [FILES_JS, FILES_JSX, FILES_TS, FILES_TSX],
     rules: {
-      ...(core && rules.core),
-      ...(suggestions && rules.suggestions),
+      ...core && rules.core,
+      ...suggestions && rules.suggestions,
     },
   },
   overrides,

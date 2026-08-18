@@ -106,31 +106,26 @@ function extendObject<T extends object>(base: T, ext: T): T {
 }
 
 export class ConfigCreator<C extends NamelessConfig = NamelessConfig, N extends string = string> {
-  #name: N;
+  #configName: N;
 
-  constructor(name: N) {
-    this.#name = name;
+  constructor(configName: N) {
+    this.#configName = configName;
   }
 
   define<O>(define: DefineConfig<O, C>): DefineConfigAsync<O, NamedConfig<N> | FailedConfig<N>> {
     return async (options) => {
-      let config: MaybePromise<C>;
-
       try {
-        config = define(options);
+        const [config, elapsed] = await measure(() => settle(define(options)));
+        this.#notify(`Has loaded successfully in ${elapsed.toFixed(2)}ms`);
+        return { ...config, name: this.#configName };
       } catch (error) {
-        return this.#reportWithFallback(error);
-      }
-
-      if (config instanceof Promise) {
-        try {
-          config = await config;
-        } catch (error) {
-          return this.#reportWithFallback(error);
+        if (error instanceof ConfigError) {
+          error.report();
+          this.#report("Has failed to load correctly");
+          return this.#failed();
         }
+        throw error;
       }
-
-      return { ...config, name: this.#name };
     };
   }
 
@@ -150,7 +145,6 @@ export class ConfigCreator<C extends NamelessConfig = NamelessConfig, N extends 
     if (errors.length > 0) {
       throw this.#aggregateError(errors, "Failed to load modules");
     }
-
     return values as ModuleValues<InteropDefaultRecord<M>, N>;
   }
 
@@ -212,24 +206,28 @@ export class ConfigCreator<C extends NamelessConfig = NamelessConfig, N extends 
     throw this.#error("Encountered invalid overrider. Use \"ext\", \"set\" and \"map\" utility functions");
   }
 
-  #reportWithFallback(error: unknown): FailedConfig<N> {
-    if (error instanceof ConfigError) {
-      error.report();
-      return this.#fallback();
-    }
-    throw error;
+  #notify(...messages: Array<string>) {
+    console.log(this.#format(...messages));
   }
 
-  #fallback(): FailedConfig<N> {
-    return { name: `FAILED > ${this.#name}` };
+  #report(...messages: Array<string>) {
+    console.warn(this.#format(...messages));
+  }
+
+  #format(...messages: Array<string>) {
+    return [`[${this.#configName}]`, ...messages].join(" ");
+  }
+
+  #failed(): FailedConfig<N> {
+    return { name: `FAILED > ${this.#configName}` };
   }
 
   #error(...args: Shift<ConfigErrorParameters>): ConfigError {
-    return new ConfigError(this.#name, ...args);
+    return new ConfigError(this.#configName, ...args);
   }
 
   #aggregateError(errors: Iterable<ConfigError>, ...args: Shift<ConfigErrorParameters>): ConfigError {
-    return new AggregateConfigError(errors, this.#name, ...args);
+    return new AggregateConfigError(errors, this.#configName, ...args);
   }
 }
 
@@ -237,55 +235,60 @@ type Definers<O extends Array<unknown>> = { [K in keyof O]: [
   DefineConfigAsync<O[K]> | DefineConfigArrayAsync<O[K]>, O[K] | boolean]
 };
 
-export function resolve<O extends Array<unknown> = Array<unknown>>(definers: Definers<O>): Promise<ConfigArray> {
+export function compose<O extends Array<unknown> = Array<unknown>>(definers: Definers<O>): Promise<ConfigArray> {
   return Promise.all(definers.reduce<Array<Promise<RecursiveConfig>>>((configs, [define, options]) => {
     if (options === true) {
       configs.push(define());
     } else if (options) {
       configs.push(define(options));
     }
-
     return configs;
   }, []));
 }
 
-export function exists(...modules: Array<string>) {
-  return modules.every(existsOneCached);
+export function all(...modules: Array<string>) {
+  return modules.every(one);
 }
 
-export function existsAny(...modules: Array<string>) {
-  return modules.some(existsOneCached);
+export function any(...modules: Array<string>) {
+  return modules.some(one);
 }
 
-const existsCache = new Map<string, boolean>();
+const cache = new Map<string, boolean>();
 
-function existsOneCached(module: string) {
-  if (!existsCache.has(module)) {
-    existsCache.set(module, existsOne(module));
+export function one(module: string) {
+  if (!cache.has(module)) {
+    cache.set(module, Boolean(resolve(module)));
   }
-  return existsCache.get(module)!;
+  return cache.get(module)!;
 }
 
-function existsOne(module: string) {
+function resolve(module: string): string | undefined {
   try {
-    require.resolve(module);
-    return true;
-  } catch (error) {
-    if (
-      typeof error === "object" &&
-      error != null &&
-      "code" in error &&
-      error.code === "MODULE_NOT_FOUND"
-    ) {
-      return false;
-    }
-    throw error;
+    return import.meta.resolve(module);
+  } catch {
+    return undefined;
   }
 }
 
 function interopDefault<T>(value: T): InteropDefault<T> {
-  if (typeof value === "object" && value !== null && "default" in value) {
+  if (isObject(value) && "default" in value) {
     return value.default as InteropDefault<T>;
   }
   return value as InteropDefault<T>;
+}
+
+function isObject(value: unknown): value is object {
+  return typeof value === "object" && value !== null;
+}
+
+async function measure<R, C>(this: C, fn: (this: C) => Promise<R>): Promise<[R, ms: number]> {
+  const start = performance.now();
+  const value = await fn.call(this);
+
+  return [value, performance.now() - start];
+}
+
+async function settle<T>(value: MaybePromise<T>): Promise<T> {
+  return value instanceof Promise ? await value : value;
 }

@@ -1,6 +1,6 @@
+import { compose, one } from "@/utils";
 import { core } from "./core";
 import { dom } from "./dom";
-import { exists, resolve } from "@/utils";
 import { hooks } from "./hooks";
 import { refresh } from "./refresh";
 
@@ -41,11 +41,11 @@ interface React extends DefineConfigArrayAsync<ReactOptions> {
 }
 
 const react: React = ({
-  core = exists("eslint-plugin-react-x"),
-  dom = exists("eslint-plugin-react-dom"),
-  hooks = exists("eslint-plugin-react-hooks"),
-  refresh = exists("eslint-plugin-react-refresh"),
-} = {}) => resolve([
+  core = one("eslint-plugin-react-x"),
+  dom = one("eslint-plugin-react-dom"),
+  hooks = one("eslint-plugin-react-hooks"),
+  refresh = one("eslint-plugin-react-refresh"),
+} = {}) => compose([
   [react.core, core],
   [react.dom, dom],
   [react.hooks, hooks],

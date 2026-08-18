@@ -54,7 +54,4 @@ export type ModuleNames<M extends Modules> = Array<ModuleName<M>>;
 export type ModuleValues<M extends Modules, N extends ModuleNames<M>> = { [K in keyof N]: M[N[K]] };
 
 export type InteropDefault<T> = T extends { default: infer D } ? D : T;
-
-export type InteropDefaultRecord<T extends Record<PropertyKey, unknown>> = {
-  [K in keyof T]: InteropDefault<T[K]>
-};
+export type InteropDefaultRecord<T extends Record<PropertyKey, unknown>> = { [K in keyof T]: InteropDefault<T[K]> };

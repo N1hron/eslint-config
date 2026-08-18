@@ -1,4 +1,4 @@
-import { ConfigCreator, exists } from "@/utils";
+import { all, ConfigCreator } from "@/utils";
 import { FILES_JSX, FILES_TSX } from "@/globs";
 import { rules } from "./rules";
 
@@ -21,15 +21,15 @@ export interface ReactCoreOptions {
 const c = new ConfigCreator<ReactCoreConfig>("n1hron/react/core");
 
 export const core = c.define<ReactCoreOptions>(({
-  rulesets: { core = true, typechecked = exists("@typescript-eslint/eslint-plugin", "@typescript-eslint/parser") } = {},
+  rulesets: { core = true, typechecked = all("@typescript-eslint/eslint-plugin", "@typescript-eslint/parser") } = {},
   overrides,
 } = {}) => c.load("eslint-plugin-react-x").then(([reactX]) => c.override(
   {
     files: [FILES_JSX, FILES_TSX],
     plugins: { "react-x": reactX },
     rules: {
-      ...(core && rules.core),
-      ...(typechecked && rules.typechecked),
+      ...core && rules.core,
+      ...typechecked && rules.typechecked,
     },
   },
   overrides,

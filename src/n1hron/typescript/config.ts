@@ -43,9 +43,9 @@ export const typescript = c.define<TypescriptOptions>(({
     },
     rules: {
       ...rules.compats,
-      ...(core && rules.core),
-      ...(stylistic && rules.stylistic),
-      ...(typechecked && rules.typechecked),
+      ...core && rules.core,
+      ...stylistic && rules.stylistic,
+      ...typechecked && rules.typechecked,
     },
   },
   overrides,

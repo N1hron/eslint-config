@@ -21,10 +21,7 @@ export const hooks = c.define<ReactHooksOptions>(({
   {
     files: [FILES_JSX, FILES_TSX],
     plugins: { "react-hooks": reactHooks as Plugin },
-    rules: {
-      ...rules.compats,
-      ...rules.core,
-    },
+    rules: { ...rules.compats, ...rules.core },
   },
   overrides,
 )));

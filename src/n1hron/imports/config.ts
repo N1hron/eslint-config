@@ -20,7 +20,7 @@ export const imports = c.define<ImportsOptions>(({
   {
     files: [FILES_JS, FILES_JSX, FILES_TS, FILES_TSX],
     plugins: { "import-x": importX },
-    rules,
+    rules: { ...rules },
   },
   overrides,
 )));

@@ -1,5 +1,5 @@
 import { defineConfig } from "eslint/config";
-import { exists, existsAny, resolve } from "@/utils";
+import { all, any, compose, one } from "@/utils";
 import { ignores } from "./ignores";
 import { imports } from "./imports";
 import { javascript } from "./javascript";
@@ -76,12 +76,12 @@ const n1hron: N1hron = (
     ignores = true,
     javascript = true,
 
-    typescript = exists("@typescript-eslint/eslint-plugin", "@typescript-eslint/parser"),
-    stylistic = exists("@stylistic/eslint-plugin"),
-    imports = exists("eslint-plugin-import-x"),
-    perfectionist = exists("eslint-plugin-perfectionist"),
+    typescript = all("@typescript-eslint/eslint-plugin", "@typescript-eslint/parser"),
+    stylistic = one("@stylistic/eslint-plugin"),
+    imports = one("eslint-plugin-import-x"),
+    perfectionist = one("eslint-plugin-perfectionist"),
 
-    react = existsAny(
+    react = any(
       "eslint-plugin-react-x",
       "eslint-plugin-react-dom",
       "eslint-plugin-react-hooks",
@@ -90,7 +90,7 @@ const n1hron: N1hron = (
   } = {},
 
   ...userConfigs
-) => resolve([
+) => compose([
   [n1hron.ignores, ignores],
   [n1hron.javascript, javascript],
   [n1hron.typescript, typescript],

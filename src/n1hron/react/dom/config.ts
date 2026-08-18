@@ -20,7 +20,7 @@ export const dom = c.define<ReactDomOptions>(({
   {
     files: [FILES_JSX, FILES_TSX],
     plugins: { "react-dom": reactDOM },
-    rules,
+    rules: { ...rules },
   },
   overrides,
 )));

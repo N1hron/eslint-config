@@ -20,7 +20,7 @@ export const perfectionist = c.define<PerfectionistOptions>(({
   {
     files: [FILES_JS, FILES_JSX, FILES_TS, FILES_TSX],
     plugins: { perfectionist },
-    rules,
+    rules: { ...rules },
   },
   overrides,
 )));

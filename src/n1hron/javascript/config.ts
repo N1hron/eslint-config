@@ -1,5 +1,5 @@
+import { compose, one } from "@/utils";
 import { core } from "./core";
-import { exists, resolve } from "@/utils";
 import { globals } from "./globals";
 
 import type { DefineConfigArrayAsync } from "@/types";
@@ -21,7 +21,7 @@ interface Javascript extends DefineConfigArrayAsync<JavascriptOptions> {
   globals: typeof globals;
 }
 
-const javascript: Javascript = ({ core = true, globals = exists("globals") }: JavascriptOptions = {}) => resolve([
+const javascript: Javascript = ({ core = true, globals = one("globals") }: JavascriptOptions = {}) => compose([
   [javascript.core, core],
   [javascript.globals, globals],
 ]);
