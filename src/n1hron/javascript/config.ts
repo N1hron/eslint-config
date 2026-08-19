@@ -11,7 +11,7 @@ export interface JavascriptOptions {
   core?: boolean | JavascriptCoreOptions;
   /**
    * Requires {@link https://www.npmjs.com/package/globals|globals} to be installed.
-   * @default `false`
+   * @default `true` if {@link https://www.npmjs.com/package/globals|globals} installed, `false` otherwise.
    */
   globals?: boolean | JavascriptGlobalsOptions;
 }

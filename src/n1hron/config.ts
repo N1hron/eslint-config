@@ -23,7 +23,6 @@ interface N1hronOptions {
   ignores?: boolean | IgnoresOptions;
   /** @default `true` */
   javascript?: boolean | JavascriptOptions;
-
   /**
    * Requires {@link https://www.npmjs.com/package/@typescript-eslint/eslint-plugin|@typescript-eslint/eslint-plugin}
    * and {@link https://www.npmjs.com/package/@typescript-eslint/parser|@typescript-eslint/eslint-plugin} to be installed.

@@ -28,7 +28,7 @@ export interface ReactOptions {
   hooks?: boolean | ReactHooksOptions;
   /**
    * Requires {@link https://www.npmjs.com/package/eslint-plugin-react-refresh|eslint-plugin-react-refresh} to be installed.
-    * @default `true` if {@link https://www.npmjs.com/package/eslint-plugin-react-refresh|eslint-plugin-react-refresh} installed, `false` otherwise.
+   * @default `true` if {@link https://www.npmjs.com/package/eslint-plugin-react-refresh|eslint-plugin-react-refresh} installed, `false` otherwise.
    */
   refresh?: boolean | ReactRefreshOptions;
 }
