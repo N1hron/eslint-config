@@ -2,9 +2,8 @@ import { ConfigCreator } from "@/utils";
 import { FILES_JSX, FILES_TSX } from "@/globs";
 import { rules } from "./rules";
 
-import type { Plugin } from "@eslint/config-helpers";
 import type { ConfigOverrides } from "@/utils";
-import type { NamelessConfig } from "@/types";
+import type { EslintPlugin, NamelessConfig } from "@/types";
 import type { ReactHooksRules } from "./types.gen";
 
 type ReactHooksConfig = NamelessConfig<ReactHooksRules>;
@@ -20,7 +19,7 @@ export const hooks = c.define<ReactHooksOptions>(({
 } = {}) => c.load("eslint-plugin-react-hooks").then(([reactHooks]) => c.override(
   {
     files: [FILES_JSX, FILES_TSX],
-    plugins: { "react-hooks": reactHooks as Plugin },
+    plugins: { "react-hooks": reactHooks as EslintPlugin },
     rules: { ...rules.compats, ...rules.core },
   },
   overrides,

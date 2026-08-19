@@ -1,14 +1,15 @@
-import type { ConfigWithExtends as ESLintConfig } from "@eslint/config-helpers";
+import type { ConfigWithExtends, Plugin } from "@eslint/config-helpers";
 import type { Linter } from "eslint";
 
 export type Shift<T extends Array<unknown>> = T extends [unknown?, ...infer R] ? R : [];
-export type Nameless<C> = Omit<C, "name">;
 export type MaybePromise<T> = T | Promise<T>;
 export type Recursive<T> = T | Array<Recursive<T>>;
 export type RecursiveArray<T> = Array<Recursive<T>>;
 export type CustomRecord<K extends PropertyKey = PropertyKey, V = unknown> = Record<K, V>;
 
-type ESLintRules = NonNullable<ESLintConfig["rules"]>;
+export type ESLintConfig = ConfigWithExtends;
+export type EslintPlugin = Plugin;
+export type ESLintRules = NonNullable<ESLintConfig["rules"]>;
 
 export interface Config<R extends ESLintRules = ESLintRules> extends ESLintConfig {
   languageOptions?: Linter.LanguageOptions;
@@ -19,7 +20,7 @@ export interface NamedConfig<N extends string = string, R extends ESLintRules = 
   name?: N;
 }
 
-export type NamelessConfig<R extends ESLintRules = ESLintRules> = Nameless<Config<R>>;
+export type NamelessConfig<R extends ESLintRules = ESLintRules> = Omit<Config<R>, "name">;
 export type RecursiveConfig<R extends ESLintRules = ESLintRules> = Recursive<Config<R>>;
 export type ConfigArray<R extends ESLintRules = ESLintRules> = RecursiveArray<Config<R>>;
 

@@ -2,10 +2,9 @@ import { ConfigCreator } from "@/utils";
 import { FILES_TS, FILES_TSX } from "@/globs";
 import { rules } from "./rules";
 
-import type { Plugin } from "@eslint/config-helpers";
 import type { ConfigOverrides } from "@/utils";
+import type { EslintPlugin, NamelessConfig } from "@/types";
 import type { JavascriptCoreRules } from "../javascript/core";
-import type { NamelessConfig } from "@/types";
 import type { TypescriptRules } from "./types.gen";
 
 type TypescriptConfig = NamelessConfig<TypescriptRules & JavascriptCoreRules>;
@@ -34,7 +33,7 @@ export const typescript = c.define<TypescriptOptions>(({
   {
     files: [FILES_TS, FILES_TSX],
     plugins: {
-      "@typescript-eslint": plugin as unknown as Plugin,
+      "@typescript-eslint": plugin as unknown as EslintPlugin,
     },
     languageOptions: {
       parser: parser,
