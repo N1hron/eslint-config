@@ -6,5 +6,4 @@ export default defineConfig({
   sourcemap: false,
   dts: { sourcemap: false },
   tsconfig: "tsconfig.json",
-  deps: { neverBundle: ["@eslint/config-helpers"] },
 });

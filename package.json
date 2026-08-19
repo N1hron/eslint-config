@@ -32,8 +32,10 @@
     "publish": "npm publish --access public",
     "typegen": "tsx ./scripts/typegen.ts"
   },
+  "dependencies": {
+    "@eslint/config-helpers": "^0.7.0"
+  },
   "devDependencies": {
-    "@eslint/config-helpers": "^0.7.0",
     "@n1hron/oxfmt-config": "^1.1.0",
     "@n1hron/tsconfig": "^2.0.0",
     "@stylistic/eslint-plugin": "^5.10.0",
