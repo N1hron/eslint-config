@@ -101,7 +101,7 @@ const generate = async (data: ConfigDataGroup | ConfigData, location: string) =>
       { includeAugmentation: false, exportTypeName: data.type },
     ).then((types) => types.replace(
       `export interface ${data.type} {`,
-      "$&\n  [key: string]: Linter.RuleEntry<unknown[]>",
+      "$&\n  [key: string]: Linter.RuleEntry<unknown[]> | undefined",
     ));
 
     await fs.mkdir(dir, { recursive: true });

@@ -1,8 +1,11 @@
 {
   "extends": ["@n1hron/tsconfig/node", "@n1hron/tsconfig/build"],
-  "exclude": ["./dist", "./node_modules"],
+  "include": ["**/*.ts", "eslint.config.js"],
+  "exclude": ["node_modules", "dist", "coverage"],
 
   "compilerOptions": {
+    "exactOptionalPropertyTypes": false,
+
     "paths": {
       "@/*": ["./src/*"]
     }

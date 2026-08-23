@@ -1,11 +1,7 @@
 import { createJiti } from "jiti";
 
-import path from "path";
-
 const jiti = createJiti(import.meta.url, {
-  alias: {
-    "@": path.resolve(import.meta.dirname, "src"),
-  },
+  tsconfigPaths: "./tsconfig.json",
 });
 
 /** @type {typeof import("./src/index.ts")} */
