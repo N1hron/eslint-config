@@ -1,5 +1,6 @@
 import { defineConfig } from "eslint/config";
-import { all, any, compose, one } from "@/utils";
+import { canResolve, canResolveAll, canResolveAny } from "@/utils/modules";
+import { compose } from "@/utils/config";
 import { ignores } from "./ignores";
 import { imports } from "./imports";
 import { javascript } from "./javascript";
@@ -9,7 +10,7 @@ import { stylistic } from "./stylistic";
 import { typescript } from "./typescript";
 
 import type { Linter } from "eslint";
-import type { ConfigArray } from "@/types";
+import type { ConfigArray } from "@/utils/config";
 import type { IgnoresOptions } from "./ignores";
 import type { ImportsOptions } from "./imports";
 import type { JavascriptOptions } from "./javascript";
@@ -75,12 +76,12 @@ const n1hron: N1hron = (
     ignores = true,
     javascript = true,
 
-    typescript = all("@typescript-eslint/eslint-plugin", "@typescript-eslint/parser"),
-    stylistic = one("@stylistic/eslint-plugin"),
-    imports = one("eslint-plugin-import-x"),
-    perfectionist = one("eslint-plugin-perfectionist"),
+    typescript = canResolveAll("@typescript-eslint/eslint-plugin", "@typescript-eslint/parser"),
+    stylistic = canResolve("@stylistic/eslint-plugin"),
+    imports = canResolve("eslint-plugin-import-x"),
+    perfectionist = canResolve("eslint-plugin-perfectionist"),
 
-    react = any(
+    react = canResolveAny(
       "eslint-plugin-react-x",
       "eslint-plugin-react-dom",
       "eslint-plugin-react-hooks",

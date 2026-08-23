@@ -1,13 +1,11 @@
-import { ConfigCreator } from "@/utils";
+import { definer, load, override } from "@/utils/config";
 import { FILES_TS, FILES_TSX } from "@/globs";
 import { rules } from "./rules";
 
-import type { ConfigOverrides } from "@/utils";
-import type { EslintPlugin, NamelessConfig } from "@/types";
+import type { Config, ConfigOverrides } from "@/utils/config";
+import type { EslintPlugin } from "@/types";
 import type { JavascriptCoreRules } from "../javascript/core";
 import type { TypescriptRules } from "./types.gen";
-
-type TypescriptConfig = NamelessConfig<TypescriptRules & JavascriptCoreRules>;
 
 export interface TypescriptOptions {
   rulesets?: {
@@ -18,34 +16,32 @@ export interface TypescriptOptions {
     /** @default `true` */
     typechecked?: boolean;
   };
-  overrides?: ConfigOverrides<TypescriptConfig>;
+  overrides?: ConfigOverrides<Config<TypescriptRules & JavascriptCoreRules>>;
 }
 
-const c = new ConfigCreator<TypescriptConfig>("n1hron/typescript");
-
-export const typescript = c.define<TypescriptOptions>(({
-  rulesets: { core = true, stylistic = true, typechecked = true } = {},
-  overrides,
-} = {}) => c.load(
-  "@typescript-eslint/parser",
-  "@typescript-eslint/eslint-plugin",
-).then(([parser, plugin]) => c.override(
-  {
-    files: [FILES_TS, FILES_TSX],
-    plugins: {
-      "@typescript-eslint": plugin as unknown as EslintPlugin,
+export const typescript = definer<TypescriptOptions>(
+  "n1hron/typescript",
+  ({
+    rulesets: { core = true, stylistic = true, typechecked = true } = {},
+    overrides,
+  } = {}) => load("@typescript-eslint/parser", "@typescript-eslint/eslint-plugin").then(([parser, plugin]) => override(
+    {
+      files: [FILES_TS, FILES_TSX],
+      plugins: {
+        "@typescript-eslint": plugin as unknown as EslintPlugin,
+      },
+      languageOptions: {
+        parser: parser,
+        sourceType: "module",
+        parserOptions: { projectService: typechecked },
+      },
+      rules: {
+        ...rules.compats,
+        ...core && rules.core,
+        ...stylistic && rules.stylistic,
+        ...typechecked && rules.typechecked,
+      },
     },
-    languageOptions: {
-      parser: parser,
-      sourceType: "module",
-      parserOptions: { projectService: typechecked },
-    },
-    rules: {
-      ...rules.compats,
-      ...core && rules.core,
-      ...stylistic && rules.stylistic,
-      ...typechecked && rules.typechecked,
-    },
-  },
-  overrides,
-)));
+    overrides,
+  )),
+);

@@ -1,10 +1,11 @@
-import { compose, one } from "@/utils";
+import { canResolve } from "@/utils/modules";
+import { compose } from "@/utils/config";
 import { core } from "./core";
 import { dom } from "./dom";
 import { hooks } from "./hooks";
 import { refresh } from "./refresh";
 
-import type { DefineConfigArrayAsync } from "@/types";
+import type { ConfigArrayDefinerAsync } from "@/utils/config";
 import type { ReactCoreOptions } from "./core";
 import type { ReactDomOptions } from "./dom";
 import type { ReactHooksOptions } from "./hooks";
@@ -33,7 +34,7 @@ export interface ReactOptions {
   refresh?: boolean | ReactRefreshOptions;
 }
 
-interface React extends DefineConfigArrayAsync<ReactOptions> {
+interface React extends ConfigArrayDefinerAsync<ReactOptions> {
   core: typeof core;
   dom: typeof dom;
   hooks: typeof hooks;
@@ -41,10 +42,10 @@ interface React extends DefineConfigArrayAsync<ReactOptions> {
 }
 
 const react: React = ({
-  core = one("eslint-plugin-react-x"),
-  dom = one("eslint-plugin-react-dom"),
-  hooks = one("eslint-plugin-react-hooks"),
-  refresh = one("eslint-plugin-react-refresh"),
+  core = canResolve("eslint-plugin-react-x"),
+  dom = canResolve("eslint-plugin-react-dom"),
+  hooks = canResolve("eslint-plugin-react-hooks"),
+  refresh = canResolve("eslint-plugin-react-refresh"),
 } = {}) => compose([
   [react.core, core],
   [react.dom, dom],

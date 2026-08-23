@@ -1,26 +1,22 @@
-import { ConfigCreator } from "@/utils";
+import { definer, load, override } from "@/utils/config";
 import { FILES_JSX, FILES_TSX } from "@/globs";
 import { rules } from "./rules";
 
-import type { ConfigOverrides } from "@/utils";
-import type { NamelessConfig } from "@/types";
+import type { Config, ConfigOverrides } from "@/utils/config";
 import type { ReactDomRules } from "./types.gen";
 
-type ReactDomConfig = NamelessConfig<ReactDomRules>;
-
 export interface ReactDomOptions {
-  overrides?: ConfigOverrides<ReactDomConfig>;
+  overrides?: ConfigOverrides<Config<ReactDomRules>>;
 }
 
-const c = new ConfigCreator<ReactDomConfig>("n1hron/react/dom");
-
-export const dom = c.define<ReactDomOptions>(({
-  overrides,
-} = {}) => c.load("eslint-plugin-react-dom").then(([reactDOM]) => c.override(
-  {
-    files: [FILES_JSX, FILES_TSX],
-    plugins: { "react-dom": reactDOM },
-    rules: { ...rules },
-  },
-  overrides,
-)));
+export const dom = definer<ReactDomOptions>(
+  "n1hron/react/dom",
+  ({ overrides } = {}) => load("eslint-plugin-react-dom").then(([reactDOM]) => override(
+    {
+      files: [FILES_JSX, FILES_TSX],
+      plugins: { "react-dom": reactDOM },
+      rules: { ...rules },
+    },
+    overrides,
+  )),
+);

@@ -1,26 +1,22 @@
-import { ConfigCreator } from "@/utils";
+import { definer, load, override } from "@/utils/config";
 import { FILES_JS, FILES_JSX, FILES_TS, FILES_TSX } from "@/globs";
 import { rules } from "./rules";
 
-import type { ConfigOverrides } from "@/utils";
-import type { NamelessConfig } from "@/types";
+import type { Config, ConfigOverrides } from "@/utils/config";
 import type { StylisticRules } from "./types.gen";
 
-type StylisticConfig = NamelessConfig<StylisticRules>;
-
 export interface StylisticOptions {
-  overrides?: ConfigOverrides<StylisticConfig>;
+  overrides?: ConfigOverrides<Config<StylisticRules>>;
 }
 
-const c = new ConfigCreator<StylisticConfig>("n1hron/stylistic");
-
-export const stylistic = c.define<StylisticOptions>(({
-  overrides,
-} = {}) => c.load("@stylistic/eslint-plugin").then(([stylistic]) => c.override(
-  {
-    files: [FILES_JS, FILES_JSX, FILES_TS, FILES_TSX],
-    plugins: { "@stylistic": stylistic },
-    rules: { ...rules },
-  },
-  overrides,
-)));
+export const stylistic = definer<StylisticOptions>(
+  "n1hron/stylistic",
+  ({ overrides } = {}) => load("@stylistic/eslint-plugin").then(([stylistic]) => override(
+    {
+      files: [FILES_JS, FILES_JSX, FILES_TS, FILES_TSX],
+      plugins: { "@stylistic": stylistic },
+      rules: { ...rules },
+    },
+    overrides,
+  )),
+);

@@ -1,12 +1,10 @@
-import { all, ConfigCreator } from "@/utils";
+import { canResolveAll } from "@/utils/modules";
+import { definer, load, override } from "@/utils/config";
 import { FILES_JSX, FILES_TSX } from "@/globs";
 import { rules } from "./rules";
 
-import type { ConfigOverrides } from "@/utils";
-import type { NamelessConfig } from "@/types";
+import type { Config, ConfigOverrides } from "@/utils/config";
 import type { ReactCoreRules } from "./types.gen";
-
-type ReactCoreConfig = NamelessConfig<ReactCoreRules>;
 
 export interface ReactCoreOptions {
   rulesets?: {
@@ -15,22 +13,27 @@ export interface ReactCoreOptions {
     /** @default `true` if {@link https://www.npmjs.com/package/typescript-eslint|typescript-eslint} installed, `false` otherwise. */
     typechecked?: boolean;
   };
-  overrides?: ConfigOverrides<ReactCoreConfig>;
+  overrides?: ConfigOverrides<Config<ReactCoreRules>>;
 }
 
-const c = new ConfigCreator<ReactCoreConfig>("n1hron/react/core");
+export const core = definer<ReactCoreOptions>(
+  "n1hron/react/core",
+  ({
+    rulesets: {
+      core = true,
+      typechecked = canResolveAll("@typescript-eslint/eslint-plugin", "@typescript-eslint/parser"),
+    } = {},
 
-export const core = c.define<ReactCoreOptions>(({
-  rulesets: { core = true, typechecked = all("@typescript-eslint/eslint-plugin", "@typescript-eslint/parser") } = {},
-  overrides,
-} = {}) => c.load("eslint-plugin-react-x").then(([reactX]) => c.override(
-  {
-    files: [FILES_JSX, FILES_TSX],
-    plugins: { "react-x": reactX },
-    rules: {
-      ...core && rules.core,
-      ...typechecked && rules.typechecked,
+    overrides,
+  } = {}) => load("eslint-plugin-react-x").then(([reactX]) => override(
+    {
+      files: [FILES_JSX, FILES_TSX],
+      plugins: { "react-x": reactX },
+      rules: {
+        ...core && rules.core,
+        ...typechecked && rules.typechecked,
+      },
     },
-  },
-  overrides,
-)));
+    overrides,
+  )),
+);

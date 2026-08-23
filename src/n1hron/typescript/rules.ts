@@ -115,7 +115,7 @@ const typechecked: TypescriptRules & JavascriptCoreRules = {
   "@typescript-eslint/prefer-return-this-type": "error",
   "@typescript-eslint/restrict-plus-operands": "error",
   "@typescript-eslint/restrict-template-expressions": "error",
-  "@typescript-eslint/switch-exhaustiveness-check": "error",
+  "@typescript-eslint/switch-exhaustiveness-check": ["error", { considerDefaultExhaustiveForUnions: true }],
   "@typescript-eslint/unbound-method": "error",
   "@typescript-eslint/no-implied-eval": "error",
   "@typescript-eslint/only-throw-error": "error",

@@ -1,12 +1,9 @@
-import { ConfigCreator } from "@/utils";
+import { definer, override } from "@/utils/config";
 import { FILES_JS, FILES_JSX, FILES_TS, FILES_TSX } from "@/globs";
 import { rules } from "./rules";
 
-import type { ConfigOverrides } from "@/utils";
+import type { Config, ConfigOverrides } from "@/utils/config";
 import type { JavascriptCoreRules } from "./types.gen";
-import type { NamelessConfig } from "@/types";
-
-type JavascriptCoreConfig = NamelessConfig<JavascriptCoreRules>;
 
 export interface JavascriptCoreOptions {
   rulesets?: {
@@ -15,21 +12,19 @@ export interface JavascriptCoreOptions {
     /** @default `true` */
     suggestions?: boolean;
   };
-  overrides?: ConfigOverrides<JavascriptCoreConfig>;
+  overrides?: ConfigOverrides<Config<JavascriptCoreRules>>;
 }
 
-const c = new ConfigCreator<JavascriptCoreConfig>("n1hron/javascript");
-
-export const core = c.define<JavascriptCoreOptions>(({
-  rulesets: { core = true, suggestions = true } = {},
-  overrides,
-} = {}) => c.override(
-  {
-    files: [FILES_JS, FILES_JSX, FILES_TS, FILES_TSX],
-    rules: {
-      ...core && rules.core,
-      ...suggestions && rules.suggestions,
+export const core = definer<JavascriptCoreOptions>(
+  "n1hron/javascript",
+  ({ rulesets: { core = true, suggestions = true } = {}, overrides } = {}) => override(
+    {
+      files: [FILES_JS, FILES_JSX, FILES_TS, FILES_TSX],
+      rules: {
+        ...core && rules.core,
+        ...suggestions && rules.suggestions,
+      },
     },
-  },
-  overrides,
-));
+    overrides,
+  ),
+);
