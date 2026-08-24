@@ -1,10 +1,10 @@
 import { definer, load, override } from "@/utils/config";
 import { FILES_JS, FILES_JSX, FILES_TS, FILES_TSX } from "@/globs";
 
-import type { default as __globals } from "globals";
+import type { default as $globals } from "globals";
 import type { Config, ConfigOverrides } from "@/utils/config";
 
-type Globals = typeof __globals;
+type Globals = typeof $globals;
 type GlobalsLib = { [K in keyof Globals]: K extends `es${string}` ? K : never }[keyof Globals];
 type GlobalsEnv = Array<Exclude<keyof Globals, GlobalsLib>>;
 
