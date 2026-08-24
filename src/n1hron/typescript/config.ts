@@ -12,8 +12,6 @@ export interface TypescriptOptions {
     /** @default `true` */
     core?: boolean;
     /** @default `true` */
-    stylistic?: boolean;
-    /** @default `true` */
     typechecked?: boolean;
   };
   overrides?: ConfigOverrides<Config<TypescriptRules & JavascriptCoreRules>>;
@@ -22,7 +20,7 @@ export interface TypescriptOptions {
 export const typescript = definer<TypescriptOptions>(
   "n1hron/typescript",
   ({
-    rulesets: { core = true, stylistic = true, typechecked = true } = {},
+    rulesets: { core = true, typechecked = true } = {},
     overrides,
   } = {}) => load("@typescript-eslint/parser", "@typescript-eslint/eslint-plugin").then(([parser, plugin]) => override(
     {
@@ -38,7 +36,6 @@ export const typescript = definer<TypescriptOptions>(
       rules: {
         ...rules.compats,
         ...core && rules.core,
-        ...stylistic && rules.stylistic,
         ...typechecked && rules.typechecked,
       },
     },

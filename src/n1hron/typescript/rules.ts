@@ -24,41 +24,45 @@ const compats: JavascriptCoreRules = {
 };
 
 const core: TypescriptRules & JavascriptCoreRules = {
-  "@typescript-eslint/no-duplicate-enum-values": "error",
-  "@typescript-eslint/no-empty-object-type": ["error", { allowInterfaces: "with-single-extends" }],
-  "@typescript-eslint/no-explicit-any": "error",
-  "@typescript-eslint/no-extra-non-null-assertion": "error",
-  "@typescript-eslint/no-import-type-side-effects": "error",
-  "@typescript-eslint/no-misused-new": "error",
-  "@typescript-eslint/no-namespace": "error",
-  "@typescript-eslint/no-non-null-asserted-nullish-coalescing": "error",
-  "@typescript-eslint/no-non-null-asserted-optional-chain": "error",
-  "@typescript-eslint/no-this-alias": "error",
-  "@typescript-eslint/no-unnecessary-type-constraint": "error",
-  "@typescript-eslint/no-unsafe-declaration-merging": "error",
-  "@typescript-eslint/no-unsafe-function-type": "error",
-  "@typescript-eslint/no-wrapper-object-types": "error",
-  "@typescript-eslint/prefer-as-const": "error",
-  "@typescript-eslint/prefer-namespace-keyword": "error",
-  "@typescript-eslint/triple-slash-reference": "error",
-  "@typescript-eslint/unified-signatures": "error",
-  "@typescript-eslint/default-param-last": "error",
-  "@typescript-eslint/no-array-constructor": "error",
-  "@typescript-eslint/no-unused-expressions": "error",
-  "@typescript-eslint/no-unused-private-class-members": "error",
-
-  "@typescript-eslint/ban-ts-comment": [
+  "@typescript-eslint/no-explicit-any": "error", // This is an escape hatch from the type system
+  "@typescript-eslint/no-unsafe-declaration-merging": "error", // Declaration merging between classes and interfaces breaks types
+  "@typescript-eslint/prefer-namespace-keyword": "error", // "module" keyword is deprecated in favor of "namespace" keyword
+  "@typescript-eslint/ban-ts-comment": [ // This is an escape hatch from the type system
     "error",
     {
       "ts-check": false,
       "ts-nocheck": "allow-with-description",
       "ts-expect-error": "allow-with-description",
-      "ts-ignore": true,
+      "ts-ignore": "allow-with-description",
     },
   ],
 
+  "@typescript-eslint/adjacent-overload-signatures": "warn",
+  "@typescript-eslint/array-type": ["warn", { default: "generic" }],
+  "@typescript-eslint/consistent-type-assertions": ["warn", { assertionStyle: "as" }],
+  "@typescript-eslint/consistent-type-imports": [
+    "warn",
+    {
+      prefer: "type-imports",
+      fixStyle: "separate-type-imports",
+      disallowTypeAnnotations: false,
+    },
+  ],
+  "@typescript-eslint/default-param-last": "warn",
+  "@typescript-eslint/no-array-constructor": "warn",
+  "@typescript-eslint/no-duplicate-enum-values": "warn",
+  "@typescript-eslint/no-empty-object-type": ["warn", { allowInterfaces: "with-single-extends" }],
+  "@typescript-eslint/no-extra-non-null-assertion": "warn",
+  "@typescript-eslint/no-namespace": "warn",
+  "@typescript-eslint/no-non-null-asserted-nullish-coalescing": "warn",
+  "@typescript-eslint/no-non-null-asserted-optional-chain": "warn",
+  "@typescript-eslint/no-this-alias": "warn",
+  "@typescript-eslint/no-unnecessary-type-constraint": "warn",
+  "@typescript-eslint/no-unsafe-function-type": "warn",
+  "@typescript-eslint/no-unused-expressions": "warn",
+  "@typescript-eslint/no-unused-private-class-members": "warn",
   "@typescript-eslint/no-unused-vars": [
-    "error",
+    "warn",
     {
       args: "all",
       argsIgnorePattern: "^_",
@@ -69,58 +73,49 @@ const core: TypescriptRules & JavascriptCoreRules = {
       ignoreRestSiblings: true,
     },
   ],
+  "@typescript-eslint/no-wrapper-object-types": "warn",
+  "@typescript-eslint/prefer-as-const": "warn",
+  "@typescript-eslint/triple-slash-reference": "warn",
+  "@typescript-eslint/unified-signatures": "warn",
 
-  "@typescript-eslint/consistent-type-imports": [
-    "error",
-    {
-      prefer: "type-imports",
-      fixStyle: "separate-type-imports",
-      disallowTypeAnnotations: false,
-    },
-  ],
-
+  "default-param-last": "off",
   "no-array-constructor": "off",
   "no-unused-expressions": "off",
   "no-unused-private-class-members": "off",
   "no-unused-vars": "off",
 };
 
-const stylistic: TypescriptRules & JavascriptCoreRules = {
-  "@typescript-eslint/adjacent-overload-signatures": "error",
-  "@typescript-eslint/array-type": ["error", { default: "generic" }],
-  "@typescript-eslint/consistent-type-assertions": ["error", { assertionStyle: "as" }],
-};
-
 const typechecked: TypescriptRules & JavascriptCoreRules = {
-  "@typescript-eslint/await-thenable": ["error"],
-  "@typescript-eslint/consistent-type-exports": "error",
-  "@typescript-eslint/no-array-delete": "error",
-  "@typescript-eslint/no-base-to-string": "error",
-  "@typescript-eslint/no-deprecated": "error",
-  "@typescript-eslint/no-duplicate-type-constituents": "error",
-  "@typescript-eslint/no-floating-promises": "error",
-  "@typescript-eslint/no-for-in-array": "error",
-  "@typescript-eslint/no-misused-promises": "error",
-  "@typescript-eslint/no-mixed-enums": "error",
-  "@typescript-eslint/no-redundant-type-constituents": "error",
-  "@typescript-eslint/no-unnecessary-template-expression": "error",
-  "@typescript-eslint/no-unnecessary-type-assertion": "error",
-  "@typescript-eslint/no-unsafe-argument": "error",
-  "@typescript-eslint/no-unsafe-assignment": "error",
-  "@typescript-eslint/no-unsafe-call": "error",
-  "@typescript-eslint/no-unsafe-enum-comparison": "error",
-  "@typescript-eslint/no-unsafe-member-access": "error",
-  "@typescript-eslint/no-unsafe-return": "error",
-  "@typescript-eslint/no-unsafe-unary-minus": "error",
-  "@typescript-eslint/prefer-return-this-type": "error",
-  "@typescript-eslint/restrict-plus-operands": "error",
-  "@typescript-eslint/restrict-template-expressions": "error",
-  "@typescript-eslint/switch-exhaustiveness-check": ["error", { considerDefaultExhaustiveForUnions: true }],
-  "@typescript-eslint/unbound-method": "error",
-  "@typescript-eslint/no-implied-eval": "error",
-  "@typescript-eslint/only-throw-error": "error",
-  "@typescript-eslint/prefer-promise-reject-errors": "error",
-  "@typescript-eslint/require-await": "error",
+  "@typescript-eslint/no-unsafe-argument": "error", // The any type is an escape hatch from the type system
+  "@typescript-eslint/no-unsafe-assignment": "error", // The any type is an escape hatch from the type system
+  "@typescript-eslint/no-unsafe-call": "error", // The any type is an escape hatch from the type system
+  "@typescript-eslint/no-unsafe-member-access": "error", // The any type is an escape hatch from the type system
+  "@typescript-eslint/no-unsafe-return": "error", // The any type is an escape hatch from the type system
+
+  "@typescript-eslint/await-thenable": "warn",
+  "@typescript-eslint/consistent-type-exports": "warn",
+  "@typescript-eslint/no-array-delete": "warn",
+  "@typescript-eslint/no-base-to-string": "warn",
+  "@typescript-eslint/no-deprecated": "warn",
+  "@typescript-eslint/no-duplicate-type-constituents": "warn",
+  "@typescript-eslint/no-floating-promises": "warn",
+  "@typescript-eslint/no-for-in-array": "warn",
+  "@typescript-eslint/no-implied-eval": "warn",
+  "@typescript-eslint/no-misused-promises": "warn",
+  "@typescript-eslint/no-mixed-enums": "warn",
+  "@typescript-eslint/no-redundant-type-constituents": "warn",
+  "@typescript-eslint/no-unnecessary-template-expression": "warn",
+  "@typescript-eslint/no-unnecessary-type-assertion": "warn",
+  "@typescript-eslint/no-unsafe-enum-comparison": "warn",
+  "@typescript-eslint/no-unsafe-unary-minus": "warn",
+  "@typescript-eslint/only-throw-error": "warn",
+  "@typescript-eslint/prefer-promise-reject-errors": "warn",
+  "@typescript-eslint/prefer-return-this-type": "warn",
+  "@typescript-eslint/require-await": "warn",
+  "@typescript-eslint/restrict-plus-operands": "warn",
+  "@typescript-eslint/restrict-template-expressions": "warn",
+  "@typescript-eslint/switch-exhaustiveness-check": ["warn", { considerDefaultExhaustiveForUnions: true }],
+  "@typescript-eslint/unbound-method": "warn",
 
   "no-implied-eval": "off",
   "no-throw-literal": "off",
@@ -128,4 +123,4 @@ const typechecked: TypescriptRules & JavascriptCoreRules = {
   "require-await": "off",
 };
 
-export const rules = { compats, core, stylistic, typechecked };
+export const rules = { compats, core, typechecked };
