@@ -1,27 +1,41 @@
 import { InnerError } from "./errors";
 import { isObject } from "./misc";
 
-export interface ReduceAction<T extends string = string, P = unknown> {
+import type { ExtendFn, MapFn } from "@/types";
+
+export interface Action<T extends string = string> {
   type: T;
+}
+
+export interface ActionWithPayload<T extends string = string, P = unknown> extends Action<T> {
   payload: P;
 }
 
-export type Reducer<V, A extends ReduceAction> = {
-  [T in A["type"]]: (value: V, payload: Extract<A, ReduceAction<T>>["payload"]) => V
-};
-
-export function isReduceAction(value: unknown): value is ReduceAction {
-  return isObject(value) && "type" in value && typeof value.type === "string" && "payload" in value;
+export function isAction(value: unknown): value is Action {
+  return isObject(value) && "type" in value && typeof value.type === "string";
 }
 
-export function reduce<V, A extends ReduceAction>(value: V, action: A, reducer: Reducer<V, A>) {
-  if (!isReduceAction(action)) {
-    throw new InnerError("Specified reduce action is invalid");
+export function isActionWithPayload(value: unknown): value is ActionWithPayload {
+  return isAction(value) && "payload" in value;
+}
+
+export type Reducer<V, A extends Action> = {
+  [T in A["type"]]: Extract<A, Action<T>> extends ActionWithPayload<T, infer P> ? ExtendFn<V, P> : MapFn<V>
+};
+
+export function reduce<V, A extends Action>(value: V, action: A, reducer: Reducer<V, A>) {
+  if (!isAction(action)) {
+    throw new InnerError("Provided action is not valid");
   }
 
   if (!(action.type in reducer)) {
-    throw new InnerError("Specified reduce action is not supported by provided reducer");
+    throw new InnerError("Provided action and reducer are not compatible with each other");
   }
 
-  return reducer[action.type as keyof Reducer<V, A>](value, action.payload);
+  const type = action.type as typeof action["type"];
+
+  if ("payload" in action) {
+    return reducer[type](value, action.payload);
+  }
+  return (reducer[type] as MapFn<V>)(value);
 }

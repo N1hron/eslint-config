@@ -2,6 +2,8 @@ import type { ConfigWithExtends, Plugin } from "@eslint/config-helpers";
 import type { Linter } from "eslint";
 
 export type MapFn<T> = (value: T) => T;
+export type ExtendFn<B, E = B> = (base: B, extension: E) => B;
+
 export type MaybePromise<T> = T | Promise<T>;
 export type Recursive<T> = T | Array<Recursive<T>>;
 export type RecursiveArray<T> = Array<Recursive<T>>;

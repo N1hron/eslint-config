@@ -16,8 +16,8 @@ import { interopDefault, load as loadModules } from "./modules";
 import { measure, promisify } from "./misc";
 import { reduce } from "./reduce";
 
+import type { ActionWithPayload, Reducer } from "./reduce";
 import type { InteropDefaultProperties, Modules, ModuleSpecifiers } from "./modules";
-import type { ReduceAction, Reducer } from "./reduce";
 
 export interface Config<R extends ESLintRules = ESLintRules> extends ESLintConfig {
   languageOptions?: ESLintLinterOptions;
@@ -104,9 +104,9 @@ const SET = "set";
 const MAP = "map";
 const EXT = "ext";
 
-type SetAction<T = unknown> = ReduceAction<typeof SET, T>;
-type MapAction<T = unknown> = ReduceAction<typeof MAP, MapFn<T>>;
-type ExtAction<T = unknown> = ReduceAction<typeof EXT, T>;
+type SetAction<T = unknown> = ActionWithPayload<typeof SET, T>;
+type MapAction<T = unknown> = ActionWithPayload<typeof MAP, MapFn<T>>;
+type ExtAction<T = unknown> = ActionWithPayload<typeof EXT, T>;
 
 export function set<T>(payload: T): SetAction<T> {
   return { type: SET, payload };
