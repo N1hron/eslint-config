@@ -17,23 +17,22 @@ const compats: ReactCoreRules = {
 };
 
 const core: ReactHooksRules = {
-  "react-hooks/rules-of-hooks": "error",
-  "react-hooks/config": "error",
-  "react-hooks/error-boundaries": "error",
-  "react-hooks/gating": "error",
-  "react-hooks/globals": "error",
-  "react-hooks/immutability": "error",
-  "react-hooks/preserve-manual-memoization": "error",
-  "react-hooks/purity": "error",
-  "react-hooks/static-components": "error",
-  "react-hooks/unsupported-syntax": "error",
-  "react-hooks/use-memo": "error",
+  "react-hooks/config": "error", // Crucial for react compiler to work correctly
+  "react-hooks/error-boundaries": "error", // Crucial for react to work correctly
+  "react-hooks/globals": "error", // Side effects must run outside of render
+  "react-hooks/immutability": "error", // React values must be immutable
+  "react-hooks/preserve-manual-memoization": "error", // Crucial for react compiler to work correctly
+  "react-hooks/purity": "error", // Components and hooks must be pure
+  "react-hooks/rules-of-hooks": "error", // Crucial for react to work correctly
+  "react-hooks/unsupported-syntax": "error", // Crucial for react compiler to work correctly
+  "react-hooks/use-memo": "error", // Crucial for useMemo to work correctly
 
   "react-hooks/exhaustive-deps": "warn",
+  "react-hooks/incompatible-library": "warn",
   "react-hooks/refs": "warn",
   "react-hooks/set-state-in-effect": "warn",
   "react-hooks/set-state-in-render": "warn",
-  "react-hooks/incompatible-library": "warn",
+  "react-hooks/static-components": "warn",
 };
 
 export const rules = { compats, core };
