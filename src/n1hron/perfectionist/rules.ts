@@ -1,9 +1,28 @@
 import type { PerfectionistRules } from "./types.gen";
 
 export const rules: PerfectionistRules = {
-  "perfectionist/sort-named-imports": ["warn", { type: "natural", order: "asc" }],
-  "perfectionist/sort-named-exports": ["warn", { type: "natural", order: "asc" }],
+  "perfectionist/sort-exports": [
+    "warn",
+    {
+      type: "natural",
+      order: "asc",
+      newlinesBetween: 1,
 
+      groups: [
+        "wildcard-export",
+        "wildcard-type-export",
+
+        "export",
+        "type-export",
+
+        "named-export",
+        "named-type-export",
+
+        { group: "multiline-named-export", newlinesInside: 1 },
+        { group: "multiline-named-type-export", newlinesInside: 1 },
+      ],
+    },
+  ],
   "perfectionist/sort-imports": [
     "warn",
     {
@@ -63,27 +82,6 @@ export const rules: PerfectionistRules = {
       ],
     },
   ],
-
-  "perfectionist/sort-exports": [
-    "warn",
-    {
-      type: "natural",
-      order: "asc",
-      newlinesBetween: 1,
-
-      groups: [
-        "wildcard-export",
-        "wildcard-type-export",
-
-        "export",
-        "type-export",
-
-        "named-export",
-        "named-type-export",
-
-        { group: "multiline-named-export", newlinesInside: 1 },
-        { group: "multiline-named-type-export", newlinesInside: 1 },
-      ],
-    },
-  ],
+  "perfectionist/sort-named-exports": ["warn", { type: "natural", order: "asc" }],
+  "perfectionist/sort-named-imports": ["warn", { type: "natural", order: "asc" }],
 };
