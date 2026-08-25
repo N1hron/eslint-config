@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { isObject, measure, mergeArrays, mergeObjects, promisify } from "../misc";
+import { isObject, measure, promisify } from "../misc";
 
 describe("isObject", () => {
   describe("returns true if value is an object", () => {
@@ -46,29 +46,5 @@ describe("promisify", () => {
 
     expect(result instanceof Promise).toBeTruthy();
     await expect(result).resolves.toBe(obj);
-  });
-});
-
-describe("mergeArrays", () => {
-  it("merges two arrays into one new array", () => {
-    const one = [1, 2];
-    const two = [3, 4];
-    const res = mergeArrays(one, two);
-
-    expect(res).toEqual([1, 2, 3, 4]);
-    expect(one).not.toBe(res);
-    expect(two).not.toBe(res);
-  });
-});
-
-describe("mergeObjects", () => {
-  it("merges two objects into one new object", () => {
-    const one = { one: 1 };
-    const two = { two: 2 };
-    const res = mergeObjects<object>(one, two);
-
-    expect(res).toEqual({ one: 1, two: 2 });
-    expect(one).not.toBe(res);
-    expect(two).not.toBe(res);
   });
 });

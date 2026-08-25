@@ -14,11 +14,3 @@ export function promisify<A extends Array<unknown>, R, C>(fn: (this: C, ...args:
     return new Promise((resolve) => resolve(fn.apply(this, args)));
   };
 }
-
-export function mergeArrays<T>(base: Array<T>, ext: Array<T>): Array<T> {
-  return [...base, ...ext];
-}
-
-export function mergeObjects<T extends object>(base: T, ext: T): T {
-  return Object.assign({}, base, ext);
-}
