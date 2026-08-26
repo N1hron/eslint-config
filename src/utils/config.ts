@@ -11,13 +11,13 @@ import type {
 } from "@/types";
 
 import { posix } from "node:path";
+import { load as $load, interopDefault } from "./modules";
 import { InnerAggregateError, InnerError } from "./errors";
-import { interopDefault, load as loadModules } from "./modules";
 import { measure, promisify } from "./misc";
 import { reduce } from "./reduce";
 
 import type { ActionWithPayload, Reducer } from "./reduce";
-import type { InteropDefaultProperties, Modules, ModuleSpecifiers } from "./modules";
+import type { InteropDefaultProperties, ModuleSpecifiers } from "./modules";
 
 export interface Config<R extends ESLintRules = ESLintRules> extends ESLintConfig {
   languageOptions?: ESLintLinterOptions;
@@ -80,7 +80,7 @@ function format(name: string, ...messages: Array<string>) {
   return [`[${name}]`, ...messages].join(" ");
 }
 
-interface ConfigModules extends Modules {
+type ConfigModules = {
   globals: typeof import("globals");
 
   "eslint-plugin-import-x": typeof import("eslint-plugin-import-x");
@@ -92,10 +92,10 @@ interface ConfigModules extends Modules {
   "@stylistic/eslint-plugin": typeof import("@stylistic/eslint-plugin");
   "@typescript-eslint/eslint-plugin": typeof import("@typescript-eslint/eslint-plugin");
   "@typescript-eslint/parser": typeof import("@typescript-eslint/parser");
-}
+};
 
 export function load<N extends ModuleSpecifiers<ConfigModules> = []>(...specifiers: N) {
-  return loadModules<ConfigModules, N>(...specifiers).then((values) => {
+  return $load<ConfigModules, N>(...specifiers).then((values) => {
     return values.map(interopDefault) as InteropDefaultProperties<typeof values>;
   });
 }
