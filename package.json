@@ -24,9 +24,9 @@
   "scripts": {
     "build": "npm run typegen && npm run build:only",
     "build:only": "tsdown",
-    "fix": "eslint --fix",
     "inspect": "eslint --inspect-config",
     "lint": "eslint",
+    "lint:fix": "eslint --fix",
     "lint:types": "tsc --noEmit",
     "prepack": "npm run build",
     "publish": "npm publish --access public",
