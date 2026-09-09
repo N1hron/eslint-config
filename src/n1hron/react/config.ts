@@ -1,7 +1,7 @@
-import { canResolve } from "@/utils/modules";
 import { compose } from "@/utils/config";
 import { core } from "./core";
 import { dom } from "./dom";
+import { has } from "@/utils/modules";
 import { hooks } from "./hooks";
 import { refresh } from "./refresh";
 
@@ -42,10 +42,10 @@ interface React extends ConfigArrayDefinerAsync<ReactOptions> {
 }
 
 const react: React = ({
-  core = canResolve("eslint-plugin-react-x"),
-  dom = canResolve("eslint-plugin-react-dom"),
-  hooks = canResolve("eslint-plugin-react-hooks"),
-  refresh = canResolve("eslint-plugin-react-refresh"),
+  core = has("eslint-plugin-react-x"),
+  dom = has("eslint-plugin-react-dom"),
+  hooks = has("eslint-plugin-react-hooks"),
+  refresh = has("eslint-plugin-react-refresh"),
 } = {}) => compose([
   [react.core, core],
   [react.dom, dom],

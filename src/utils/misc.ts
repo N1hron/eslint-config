@@ -1,4 +1,4 @@
-import type { MaybePromise } from "@/types";
+import type { AnyFunction, MaybePromise } from "@/types";
 
 export function isObject(value: unknown): value is object {
   return typeof value === "object" && value !== null;
@@ -13,4 +13,11 @@ export function promisify<A extends Array<unknown>, R, C>(fn: (this: C, ...args:
   return function(this: C, ...args: A): Promise<R> {
     return new Promise((resolve) => resolve(fn.apply(this, args)));
   };
+}
+
+export function wrap<F extends AnyFunction>(fn: F): F {
+  return function(this: ThisParameterType<F>, ...args: Parameters<F>) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    return fn.call(this, ...args);
+  } as F;
 }

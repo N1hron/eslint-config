@@ -1,6 +1,6 @@
-import { canResolveAll } from "@/utils/modules";
 import { definer, load, override } from "@/utils/config";
 import { FILES_JSX, FILES_TSX } from "@/globs";
+import { has } from "@/utils/modules";
 import { rules } from "./rules";
 
 import type { Config, ConfigOverrides } from "@/utils/config";
@@ -21,7 +21,7 @@ export const core = definer<ReactCoreOptions>(
   ({
     rulesets: {
       core = true,
-      typechecked = canResolveAll("@typescript-eslint/eslint-plugin", "@typescript-eslint/parser"),
+      typechecked = has.all("@typescript-eslint/eslint-plugin", "@typescript-eslint/parser"),
     } = {},
 
     overrides,

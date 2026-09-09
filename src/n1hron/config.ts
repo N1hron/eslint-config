@@ -1,6 +1,6 @@
 import { defineConfig } from "eslint/config";
-import { canResolve, canResolveAll, canResolveAny } from "@/utils/modules";
 import { compose } from "@/utils/config";
+import { has } from "@/utils/modules";
 import { ignores } from "./ignores";
 import { imports } from "./imports";
 import { javascript } from "./javascript";
@@ -76,12 +76,12 @@ const n1hron: N1hron = (
     ignores = true,
     javascript = true,
 
-    typescript = canResolveAll("@typescript-eslint/eslint-plugin", "@typescript-eslint/parser"),
-    stylistic = canResolve("@stylistic/eslint-plugin"),
-    imports = canResolve("eslint-plugin-import-x"),
-    perfectionist = canResolve("eslint-plugin-perfectionist"),
+    typescript = has.all("@typescript-eslint/eslint-plugin", "@typescript-eslint/parser"),
+    stylistic = has("@stylistic/eslint-plugin"),
+    imports = has("eslint-plugin-import-x"),
+    perfectionist = has("eslint-plugin-perfectionist"),
 
-    react = canResolveAny(
+    react = has.any(
       "eslint-plugin-react-x",
       "eslint-plugin-react-dom",
       "eslint-plugin-react-hooks",

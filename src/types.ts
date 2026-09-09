@@ -4,6 +4,8 @@ import type { Linter } from "eslint";
 export type MapFn<T> = (value: T) => T;
 export type ExtendFn<B, E = B> = (base: B, extension: E) => B;
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type AnyFunction = (...args: Array<any>) => any;
 export type MaybePromise<T> = T | Promise<T>;
 export type Recursive<T> = T | Array<Recursive<T>>;
 export type RecursiveArray<T> = Array<Recursive<T>>;

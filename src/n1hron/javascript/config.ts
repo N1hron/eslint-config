@@ -1,7 +1,7 @@
-import { canResolve } from "@/utils/modules";
 import { compose } from "@/utils/config";
 import { core } from "./core";
 import { globals } from "./globals/config";
+import { has } from "@/utils/modules";
 
 import type { ConfigArrayDefinerAsync } from "@/utils/config";
 import type { JavascriptCoreOptions } from "./core";
@@ -22,7 +22,7 @@ interface Javascript extends ConfigArrayDefinerAsync<JavascriptOptions> {
   globals: typeof globals;
 }
 
-const javascript: Javascript = ({ core = true, globals = canResolve("globals") }: JavascriptOptions = {}) => compose([
+const javascript: Javascript = ({ core = true, globals = has("globals") }: JavascriptOptions = {}) => compose([
   [javascript.core, core],
   [javascript.globals, globals],
 ]);
