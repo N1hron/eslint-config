@@ -1,23 +1,16 @@
-import type { AnyFunction, MaybePromise } from "@/types";
+import type { Fn, MaybePromise } from "@/types";
 
 export function isObject(value: unknown): value is object {
   return typeof value === "object" && value !== null;
 }
 
-export function measure<T>(promise: Promise<T>): Promise<[T, ms: number]> {
+export function measurePromise<T>(promise: Promise<T>): Promise<[T, ms: number]> {
   const start = performance.now();
   return promise.then((result) => [result, performance.now() - start]);
 }
 
-export function promisify<A extends Array<unknown>, R, C>(fn: (this: C, ...args: A) => MaybePromise<R>) {
+export function promisify<A extends Array<unknown>, R, C>(fn: Fn<A, MaybePromise<R>, C>) {
   return function(this: C, ...args: A): Promise<R> {
     return new Promise((resolve) => resolve(fn.apply(this, args)));
   };
-}
-
-export function wrap<F extends AnyFunction>(fn: F): F {
-  return function(this: ThisParameterType<F>, ...args: Parameters<F>) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return fn.call(this, ...args);
-  } as F;
 }

@@ -2,7 +2,7 @@ import { findPackageJSON } from "node:module";
 import { readFile } from "node:fs/promises";
 import { satisfies } from "semver";
 import { InnerAggregateError, InnerError } from "./errors";
-import { isObject, wrap } from "./misc";
+import { isObject } from "./misc";
 
 type ImportMetaResolve = ImportMeta["resolve"];
 
@@ -56,7 +56,6 @@ async function hasExactOne(specifier: Specifier, version: string) {
   if (!resolved) {
     return false;
   }
-
   return findVersion(resolved).then((v) => !!v && satisfies(v, version)).catch(() => false);
 }
 
@@ -71,16 +70,16 @@ function hasExactAny(...specifiers: Array<SpecifierExact>) {
 }
 
 export const has = Object.assign(
-  wrap(hasOne),
+  hasOne,
   {
-    all: wrap(hasAll),
-    any: wrap(hasAny),
+    all: hasAll,
+    any: hasAny,
 
     exact: Object.assign(
-      wrap(hasExactOne),
+      hasExactOne,
       {
-        all: wrap(hasExactAll),
-        any: wrap(hasExactAny),
+        all: hasExactAll,
+        any: hasExactAny,
       },
     ),
   },

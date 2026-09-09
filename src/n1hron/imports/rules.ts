@@ -4,7 +4,7 @@ export const rules: ImportsRules = {
   "import-x/default": "error", // Importing unexisting default import is forbidden
   "import-x/export": "error", // All exports must be valid
   "import-x/named": "error", // Importing unexisting named imports is forbidden
-  "import-x/no-extraneous-dependencies": "error", // Importing external extraneous may cause problems
+  "import-x/no-extraneous-dependencies": "error", // Importing extraneous dependencies may break code later
 
   "import-x/consistent-type-specifier-style": ["warn", "prefer-top-level"],
   "import-x/first": "warn",

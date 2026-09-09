@@ -13,7 +13,7 @@ export type JavascriptGlobalsOptions = {
   lib?: GlobalsLib;
   /** @default `["node"]` */
   env?: GlobalsEnv;
-  overrides?: Pick<ConfigOverrides, "basePath" | "files" | "ignores" | "languageOptions">;
+  overrides?: ConfigOverrides<Config, "basePath" | "files" | "ignores" | "languageOptions">;
 };
 
 export const globals = definer(
@@ -22,7 +22,7 @@ export const globals = definer(
     lib = "es2023",
     env = ["node"],
     overrides,
-  }: JavascriptGlobalsOptions = {}) => load("globals").then(([globals]) => override<Config>(
+  }: JavascriptGlobalsOptions = {}) => load("globals").then(([globals]) => override(
     {
       files: [FILES_JS, FILES_JSX, FILES_TS, FILES_TSX],
       languageOptions: {

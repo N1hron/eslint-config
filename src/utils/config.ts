@@ -13,7 +13,7 @@ import type {
 import { posix } from "node:path";
 import { load as $load, interopDefault } from "./modules";
 import { InnerAggregateError, InnerError } from "./errors";
-import { measure, promisify } from "./misc";
+import { measurePromise, promisify } from "./misc";
 import { reduce } from "./reduce";
 
 import type { ActionWithPayload, Reducer } from "./reduce";
@@ -47,7 +47,7 @@ export function definer<
 >(name: N, define: ConfigDefiner<O, C>): ConfigDefinerAsync<O, NamedConfig<N> | FailedConfig<N>> {
   return async function(options) {
     try {
-      const [config, ms] = await measure(promisify(define)(options));
+      const [config, ms] = await measurePromise(promisify(define)(options));
       notify(name, `Finished loading in ${ms.toFixed(2)}ms`);
       return { ...config, name };
     } catch (error) {
@@ -189,8 +189,8 @@ const reducers: OverridesReducers = {
   },
 };
 
-export type ConfigOverrides<C extends Config = Config> = {
-  [K in OverridesField]?: OverridesAction<C[K]>
+export type ConfigOverrides<C extends Config = Config, F extends OverridesField = OverridesField> = {
+  [K in F]?: OverridesAction<C[K]>
 };
 
 export function override<C extends Config>(config: C, overrides: ConfigOverrides<C> | undefined): C {

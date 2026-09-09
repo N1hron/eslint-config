@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { isObject, measure, promisify } from "../misc";
+import { isObject, measurePromise, promisify } from "../misc";
 
 describe("isObject", () => {
   describe("returns true if value is an object", () => {
@@ -27,12 +27,12 @@ describe("measure", () => {
 
     spy.mockReturnValueOnce(500).mockReturnValueOnce(1000);
 
-    const result = await measure(Promise.resolve(obj));
+    const result = await measurePromise(Promise.resolve(obj));
 
     expect(result[0]).toBe(obj);
     expect(result[1]).toBe(500);
 
-    await expect(measure(Promise.reject(err))).rejects.toThrow("Mock error");
+    await expect(measurePromise(Promise.reject(err))).rejects.toThrow("Mock error");
   });
 });
 

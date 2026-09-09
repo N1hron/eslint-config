@@ -3,10 +3,10 @@ import { definer, override } from "@/utils/config";
 import type { Config, ConfigOverrides } from "@/utils/config";
 
 export interface IgnoresOptions {
-  overrides?: Pick<ConfigOverrides, "basePath" | "ignores">;
+  overrides?: ConfigOverrides<Config, "basePath" | "ignores">;
 }
 
-export const ignores = definer<IgnoresOptions>("n1hron/ignores", ({ overrides } = {}) => override<Config>(
+export const ignores = definer<IgnoresOptions>("n1hron/ignores", ({ overrides } = {}) => override(
   {
     ignores: [
       "**/node_modules",
