@@ -22,10 +22,14 @@ interface Javascript extends ConfigArrayDefinerAsync<JavascriptOptions> {
   globals: typeof globals;
 }
 
-const javascript: Javascript = ({ core = true, globals = has("globals") }: JavascriptOptions = {}) => compose([
-  [javascript.core, core],
-  [javascript.globals, globals],
-]);
+const javascript: Javascript = async (options: JavascriptOptions = {}) => {
+  const { core = true, globals = await has.exact("globals", ">=15.4.0") } = options;
+
+  return compose([
+    [javascript.core, core],
+    [javascript.globals, globals],
+  ]);
+};
 
 javascript.core = core;
 javascript.globals = globals;

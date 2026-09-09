@@ -41,17 +41,21 @@ interface React extends ConfigArrayDefinerAsync<ReactOptions> {
   refresh: typeof refresh;
 }
 
-const react: React = ({
-  core = has("eslint-plugin-react-x"),
-  dom = has("eslint-plugin-react-dom"),
-  hooks = has("eslint-plugin-react-hooks"),
-  refresh = has("eslint-plugin-react-refresh"),
-} = {}) => compose([
-  [react.core, core],
-  [react.dom, dom],
-  [react.hooks, hooks],
-  [react.refresh, refresh],
-]);
+const react: React = async (options = {}) => {
+  const {
+    core = await has.exact("eslint-plugin-react-x", "^4.17.1"),
+    dom = await has.exact("eslint-plugin-react-dom", "^5.14.7"),
+    hooks = await has.exact("eslint-plugin-react-hooks", "^7.1.1"),
+    refresh = await has.exact("eslint-plugin-react-refresh", "^0.5.3"),
+  } = options;
+
+  return compose([
+    [react.core, core],
+    [react.dom, dom],
+    [react.hooks, hooks],
+    [react.refresh, refresh],
+  ]);
+};
 
 react.core = core;
 react.dom = dom;

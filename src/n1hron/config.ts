@@ -78,36 +78,42 @@ interface N1hron {
   next: typeof next;
 }
 
-const n1hron: N1hron = (
-  {
+const n1hron: N1hron = async (options = {}, ...userConfigs) => {
+  const {
     ignores = true,
     javascript = true,
 
-    typescript = has.all("@typescript-eslint/eslint-plugin", "@typescript-eslint/parser"),
-    stylistic = has("@stylistic/eslint-plugin"),
-    imports = has("eslint-plugin-import-x"),
-    perfectionist = has("eslint-plugin-perfectionist"),
-    next = has("@next/eslint-plugin-next"),
+    stylistic = await has.exact("@stylistic/eslint-plugin", "^5.10.0"),
+    imports = await has.exact("eslint-plugin-import-x", "^4.17.1"),
+    perfectionist = await has.exact("eslint-plugin-perfectionist", "^5.10.0"),
+    next = await has.exact("@next/eslint-plugin-next", "^16.3.4"),
 
-    react = has.any(
-      "eslint-plugin-react-x",
-      "eslint-plugin-react-dom",
-      "eslint-plugin-react-hooks",
-      "eslint-plugin-react-refresh",
+    typescript = await has.exact.all(
+      ["@typescript-eslint/eslint-plugin", "^8.67.0"],
+      ["@typescript-eslint/parser", "^8.67.0"],
     ),
-  } = {},
 
-  ...userConfigs
-) => compose([
-  [n1hron.ignores, ignores],
-  [n1hron.javascript, javascript],
-  [n1hron.typescript, typescript],
-  [n1hron.stylistic, stylistic],
-  [n1hron.imports, imports],
-  [n1hron.perfectionist, perfectionist],
-  [n1hron.react, react],
-  [n1hron.next, next],
-]).then((configs) => defineConfig(...configs, ...userConfigs));
+    react = await has.exact.any(
+      ["eslint-plugin-react-x", "^4.17.1"],
+      ["eslint-plugin-react-dom", "^5.14.7"],
+      ["eslint-plugin-react-hooks", "^7.1.1"],
+      ["eslint-plugin-react-refresh", "^0.5.3"],
+    ),
+  } = options;
+
+  const config = await compose([
+    [n1hron.ignores, ignores],
+    [n1hron.javascript, javascript],
+    [n1hron.typescript, typescript],
+    [n1hron.stylistic, stylistic],
+    [n1hron.imports, imports],
+    [n1hron.perfectionist, perfectionist],
+    [n1hron.react, react],
+    [n1hron.next, next],
+  ]);
+
+  return defineConfig(config, ...userConfigs);
+};
 
 n1hron.ignores = ignores;
 n1hron.javascript = javascript;

@@ -16,16 +16,19 @@ export interface ReactCoreOptions {
   overrides?: ConfigOverrides<Config<ReactCoreRules>>;
 }
 
-export const core = definer<ReactCoreOptions>(
-  "n1hron/react/core",
-  ({
-    rulesets: {
-      core = true,
-      typechecked = has.all("@typescript-eslint/eslint-plugin", "@typescript-eslint/parser"),
-    } = {},
+export const core = definer<ReactCoreOptions>("n1hron/react/core", async ({ rulesets = {}, overrides } = {}) => {
+  const {
+    core = true,
 
-    overrides,
-  } = {}) => load("eslint-plugin-react-x").then(([reactX]) => override(
+    typechecked = await has.exact.all(
+      ["@typescript-eslint/eslint-plugin", "^8.67.0"],
+      ["@typescript-eslint/parser", "^8.67.0"],
+    ),
+  } = rulesets;
+
+  const [reactX] = await load("eslint-plugin-react-x");
+
+  return override(
     {
       files: [FILES_JSX, FILES_TSX],
       plugins: { "react-x": reactX },
@@ -35,5 +38,5 @@ export const core = definer<ReactCoreOptions>(
       },
     },
     overrides,
-  )),
-);
+  );
+});
