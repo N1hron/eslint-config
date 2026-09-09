@@ -31,7 +31,7 @@ interface N1hronOptions {
    * and {@link https://www.npmjs.com/package/@typescript-eslint/parser|@typescript-eslint/eslint-plugin} to be installed.
    *
    * @default `true` if {@link https://www.npmjs.com/package/@typescript-eslint/eslint-plugin|@typescript-eslint/eslint-plugin}
-   * and {@link https://www.npmjs.com/package/@typescript-eslint/parser|@typescript-eslint/eslint-plugin} are installed, `false` otherwise.
+   * and {@link https://www.npmjs.com/package/@typescript-eslint/parser|"@typescript-eslint/parser"} are installed, `false` otherwise.
    */
   typescript?: boolean | TypescriptOptions;
   /**
