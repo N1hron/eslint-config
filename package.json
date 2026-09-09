@@ -41,6 +41,7 @@
   "devDependencies": {
     "@n1hron/oxfmt-config": "^1.1.0",
     "@n1hron/tsconfig": "^2.0.0",
+    "@next/eslint-plugin-next": "^16.3.4",
     "@stylistic/eslint-plugin": "^5.10.0",
     "@types/node": "^26.1.1",
     "@types/semver": "^7.8.0",
@@ -65,6 +66,7 @@
     "vitest": "^4.1.11"
   },
   "peerDependencies": {
+    "@next/eslint-plugin-next": "^16.3.4",
     "@stylistic/eslint-plugin": "^5.5.0",
     "@typescript-eslint/eslint-plugin": "^8.58.0",
     "@typescript-eslint/parser": "^8.58.0",
@@ -78,6 +80,9 @@
     "globals": ">=15.4.0"
   },
   "peerDependenciesMeta": {
+    "@next/eslint-plugin-next": {
+      "optional": true
+    },
     "@typescript-eslint/eslint-plugin": {
       "optional": true
     },

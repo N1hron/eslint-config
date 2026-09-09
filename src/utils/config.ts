@@ -92,6 +92,7 @@ type ConfigModules = {
   "@stylistic/eslint-plugin": typeof import("@stylistic/eslint-plugin");
   "@typescript-eslint/eslint-plugin": typeof import("@typescript-eslint/eslint-plugin");
   "@typescript-eslint/parser": typeof import("@typescript-eslint/parser");
+  "@next/eslint-plugin-next": typeof import("@next/eslint-plugin-next");
 };
 
 export function load<N extends ModuleSpecifiers<ConfigModules> = []>(...specifiers: N) {

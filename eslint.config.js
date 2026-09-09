@@ -14,4 +14,5 @@ export default n1hron({
     },
   },
   react: false,
+  next: false,
 });

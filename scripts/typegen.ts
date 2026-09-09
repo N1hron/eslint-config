@@ -6,6 +6,7 @@ import type { EslintPlugin } from "@/types";
 import fs from "fs/promises";
 import path from "path";
 import importX from "eslint-plugin-import-x";
+import next from "@next/eslint-plugin-next";
 import perfectionist from "eslint-plugin-perfectionist";
 import reactDom from "eslint-plugin-react-dom";
 import reactHooks from "eslint-plugin-react-hooks";
@@ -88,6 +89,11 @@ const data: ConfigDataGroup = {
           plugins: { "react-refresh": reactRefresh },
         },
       ],
+    },
+    {
+      name: "next",
+      type: "NextRules",
+      plugins: { "@next/next": next },
     },
   ],
 };

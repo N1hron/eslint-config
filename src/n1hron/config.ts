@@ -4,6 +4,7 @@ import { has } from "@/utils/modules";
 import { ignores } from "./ignores";
 import { imports } from "./imports";
 import { javascript } from "./javascript";
+import { next } from "./next";
 import { perfectionist } from "./perfectionist";
 import { react } from "./react";
 import { stylistic } from "./stylistic";
@@ -14,6 +15,7 @@ import type { ConfigArray } from "@/utils/config";
 import type { IgnoresOptions } from "./ignores";
 import type { ImportsOptions } from "./imports";
 import type { JavascriptOptions } from "./javascript";
+import type { NextOptions } from "./next";
 import type { PerfectionistOptions } from "./perfectionist";
 import type { ReactOptions } from "./react";
 import type { StylisticOptions } from "./stylistic";
@@ -57,6 +59,10 @@ interface N1hronOptions {
    * `false` otherwise.
    */
   react?: boolean | ReactOptions;
+  /**
+   * @default `true` if {@link https://www.npmjs.com/package/@next/eslint-plugin-next|@next/eslint-plugin-next} installed, `false` otherwise.
+   */
+  next?: boolean | NextOptions;
 }
 
 interface N1hron {
@@ -69,6 +75,7 @@ interface N1hron {
   imports: typeof imports;
   perfectionist: typeof perfectionist;
   react: typeof react;
+  next: typeof next;
 }
 
 const n1hron: N1hron = (
@@ -80,6 +87,7 @@ const n1hron: N1hron = (
     stylistic = has("@stylistic/eslint-plugin"),
     imports = has("eslint-plugin-import-x"),
     perfectionist = has("eslint-plugin-perfectionist"),
+    next = has("@next/eslint-plugin-next"),
 
     react = has.any(
       "eslint-plugin-react-x",
@@ -98,6 +106,7 @@ const n1hron: N1hron = (
   [n1hron.imports, imports],
   [n1hron.perfectionist, perfectionist],
   [n1hron.react, react],
+  [n1hron.next, next],
 ]).then((configs) => defineConfig(...configs, ...userConfigs));
 
 n1hron.ignores = ignores;
@@ -107,5 +116,6 @@ n1hron.stylistic = stylistic;
 n1hron.imports = imports;
 n1hron.perfectionist = perfectionist;
 n1hron.react = react;
+n1hron.next = next;
 
 export { n1hron };
