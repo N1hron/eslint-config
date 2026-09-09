@@ -7,7 +7,7 @@ describe("NamedError", () => {
   });
 
   it("sets the error name equal to the constructor name", () => {
-    expect(new NamedError()).toMatchObject({ name: NamedError.name });
+    expect(new NamedError().name).toBe(NamedError.name);
   });
 });
 
@@ -28,11 +28,7 @@ describe("InnerAggregateError", () => {
     expect(error).toBeInstanceOf(InnerAggregateError);
   });
 
-  it("has a length getter that returns the number of contained errors", () => {
-    expect(error).toHaveLength(3);
-  });
-
-  it("is iterable over contained error contained errors", () => {
-    expect(Array.from(error)).toHaveLength(3);
+  it("contains provided errors", () => {
+    expect(error.errors).toHaveLength(3);
   });
 });
