@@ -1,7 +1,7 @@
 {
   "name": "@n1hron/eslint-config",
   "version": "0.1.0",
-  "description": "Personal opinionated eslint config",
+  "description": "Personal opinionated, yet customizable eslint config",
   "license": "MIT",
   "author": {
     "name": "N1hron",
