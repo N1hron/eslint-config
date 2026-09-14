@@ -94,7 +94,7 @@ const n1hron: N1hron = async (options = {}, ...userConfigs) => {
     ),
 
     react = await has.exact.any(
-      ["eslint-plugin-react-x", "^4.17.1"],
+      ["eslint-plugin-react-x", "^5.14.7"],
       ["eslint-plugin-react-dom", "^5.14.7"],
       ["eslint-plugin-react-hooks", "^7.1.1"],
       ["eslint-plugin-react-refresh", "^0.5.3"],

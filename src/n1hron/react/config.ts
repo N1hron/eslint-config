@@ -43,7 +43,7 @@ interface React extends ConfigArrayDefinerAsync<ReactOptions> {
 
 const react: React = async (options = {}) => {
   const {
-    core = await has.exact("eslint-plugin-react-x", "^4.17.1"),
+    core = await has.exact("eslint-plugin-react-x", "^5.14.7"),
     dom = await has.exact("eslint-plugin-react-dom", "^5.14.7"),
     hooks = await has.exact("eslint-plugin-react-hooks", "^7.1.1"),
     refresh = await has.exact("eslint-plugin-react-refresh", "^0.5.3"),
