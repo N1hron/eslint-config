@@ -116,5 +116,8 @@
     "globals": {
       "optional": true
     }
+  },
+  "engines": {
+    "node": ">=22.14.0"
   }
 }
