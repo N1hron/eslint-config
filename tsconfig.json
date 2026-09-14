@@ -1,5 +1,5 @@
 {
-  "extends": ["@n1hron/tsconfig/node", "@n1hron/tsconfig/build"],
+  "extends": ["@n1hron/tsconfig", "@n1hron/tsconfig/bundler", "@n1hron/tsconfig/node"],
   "include": ["**/*.ts", "eslint.config.js"],
   "exclude": ["node_modules", "dist", "coverage"],
 

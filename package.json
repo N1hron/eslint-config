@@ -40,7 +40,7 @@
   },
   "devDependencies": {
     "@n1hron/oxfmt-config": "^1.1.0",
-    "@n1hron/tsconfig": "^2.0.0",
+    "@n1hron/tsconfig": "^3.0.0",
     "@next/eslint-plugin-next": "^16.3.4",
     "@stylistic/eslint-plugin": "^5.10.0",
     "@types/node": "^26.1.1",
