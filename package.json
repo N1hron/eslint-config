@@ -110,9 +110,6 @@
     "eslint-plugin-react-x": {
       "optional": true
     },
-    "typescript-eslint": {
-      "optional": true
-    },
     "globals": {
       "optional": true
     }
