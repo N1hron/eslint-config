@@ -28,10 +28,10 @@ interface N1hronOptions {
   javascript?: boolean | JavascriptOptions;
   /**
    * Requires {@link https://www.npmjs.com/package/@typescript-eslint/eslint-plugin|@typescript-eslint/eslint-plugin}
-   * and {@link https://www.npmjs.com/package/@typescript-eslint/parser|@typescript-eslint/eslint-plugin} to be installed.
+   * and {@link https://www.npmjs.com/package/@typescript-eslint/parser|@typescript-eslint/parser} to be installed.
    *
    * @default `true` if {@link https://www.npmjs.com/package/@typescript-eslint/eslint-plugin|@typescript-eslint/eslint-plugin}
-   * and {@link https://www.npmjs.com/package/@typescript-eslint/parser|"@typescript-eslint/parser"} are installed, `false` otherwise.
+   * and {@link https://www.npmjs.com/package/@typescript-eslint/parser|@typescript-eslint/parser} are installed, `false` otherwise.
    */
   typescript?: boolean | TypescriptOptions;
   /**

@@ -10,7 +10,10 @@ export interface ReactCoreOptions {
   rulesets?: {
     /** @default `true` */
     core?: boolean;
-    /** @default `true` if {@link https://www.npmjs.com/package/typescript-eslint|typescript-eslint} installed, `false` otherwise. */
+    /**
+     * @default `true` if {@link https://www.npmjs.com/package/@typescript-eslint/eslint-plugin|@typescript-eslint/eslint-plugin}
+     * and {@link https://www.npmjs.com/package/@typescript-eslint/parser|@typescript-eslint/parser} are installed, `false` otherwise.
+     */
     typechecked?: boolean;
   };
   overrides?: ConfigOverrides<Config<ReactCoreRules>>;
