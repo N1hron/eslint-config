@@ -109,14 +109,22 @@ type SetAction<T = unknown> = ActionWithPayload<typeof SET, T>;
 type MapAction<T = unknown> = ActionWithPayload<typeof MAP, MapFn<T>>;
 type ExtAction<T = unknown> = ActionWithPayload<typeof EXT, T>;
 
+/** Indicates that you want to replaces the original value */
 export function set<T>(payload: T): SetAction<T> {
   return { type: SET, payload };
 }
 
+/** Indicates that you want to change the original value using provided function */
 export function map<T>(payload: MapFn<T>): MapAction<T> {
   return { type: MAP, payload };
 }
 
+/**
+ * Indicates that you want to extend the original value
+ * - arrays are concatenated
+ * - objects are shallowly merged
+ * - paths are joined using `posix.join`
+ */
 export function ext<T>(payload: T): ExtAction<T> {
   return { type: EXT, payload };
 }
